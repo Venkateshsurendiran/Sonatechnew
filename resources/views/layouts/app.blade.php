@@ -57,19 +57,11 @@
     @stack('scripts')
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
-        // Dynamically add left/right animations to all main sections
-        // Exclude sections with bg-fixed because CSS transforms break background-attachment: fixed
-        document.querySelectorAll('main section:not(.bg-fixed), main > div:not(.bg-fixed)').forEach((el, index) => {
-            if (!el.hasAttribute('data-aos')) {
-                // Alternate between left and right based on index
-                el.setAttribute('data-aos', index % 2 === 0 ? 'fade-right' : 'fade-left');
-            }
-        });
-
-        AOS.init({
-            duration: 800,
-            once: true,
-            offset: 100,
+        document.addEventListener('DOMContentLoaded', () => {
+            AOS.init({
+                once: true,
+                duration: 800
+            });
         });
     </script>
 </body>

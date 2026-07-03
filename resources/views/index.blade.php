@@ -42,48 +42,48 @@
         <div class="absolute inset-0 bg-gradient-to-b from-[#081F3D]/80 via-transparent to-[#081F3D]"></div>
 
         <div
-            class="relative z-10 w-full flex-1 flex flex-col md:flex-row items-center justify-between px-6 md:px-12 lg:px-20 py-24 md:py-0 md:pt-32">
+            class="relative z-10 w-full flex flex-col lg:flex-row items-center justify-between px-4 sm:px-6 md:px-12 lg:px-20 py-24 lg:py-12 lg:pt-48 gap-10">
             <!-- Left Text Content -->
-            <div class="w-full md:w-1/2 text-left mb-8 md:mb-0 pt-8 md:pt-0">
-                <h1 class="text-4xl md:text-5xl lg:text-6xl font-light text-white mb-6 drop-shadow-2xl leading-tight">
+            <div class="w-full lg:w-1/2 text-center lg:text-left pt-8 lg:pt-0">
+                <h1 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-light text-white mb-6 drop-shadow-2xl leading-tight">
                     Building Future
-                    <br class="hidden md:block"> Engineers, Innovators & Global Leaders
+                    <br class="hidden lg:block"> Engineers, Innovators & Global Leaders
                 </h1>
 
-                <p class="text-md md:text-xl text-gray-200 font-light leading-relaxed mb-8 max-w-2xl">
+                <p class="text-sm sm:text-md md:text-xl text-gray-200 font-light leading-relaxed mb-8 max-w-2xl mx-auto lg:mx-0 text-justify">
                     NAAC A++ Accredited • NBA Accredited • NIRF Ranked • Autonomous Institution Empowering Excellence in
                     Engineering, Research & Innovation.
                 </p>
             </div>
 
             <!-- Right Image Area (Responsive for Portrait/Landscape) -->
-            <div class="w-full md:w-1/2 flex justify-center md:justify-end h-[40vh] md:h-[60vh] relative pt-8 md:pt-0">
+            <div class="w-full lg:w-1/2 h-[420px] sm:h-[480px] lg:h-[520px] relative max-w-[600px] mx-auto lg:mx-0 mt-4 lg:mt-0 shrink-0">
 
                 <!-- Carousel Container -->
-                <div class="relative w-full max-w-[600px] h-full flex items-center justify-center md:justify-end">
+                <div class="relative w-full h-full flex items-center justify-center lg:justify-end">
 
                     <!-- Slide 1: Alumnus Card -->
                     <div
-                        class="absolute inset-0 transition-opacity duration-1000 ease-in-out hero-slide slider-item opacity-100 pointer-events-auto flex items-center justify-center md:justify-end w-full h-full p-4">
+                        class="absolute inset-0 transition-opacity duration-1000 ease-in-out hero-slide slider-item opacity-100 pointer-events-auto flex items-center justify-center lg:justify-end w-full h-full p-4">
 
                         <div
                             class="bg-white/90 backdrop-blur-md border border-white/50 rounded-2xl shadow-xl overflow-hidden flex flex-col w-full md:max-w-[550px] cursor-pointer hover:-translate-y-1 transition transform group border-b-4 border-secondary">
                             <!-- Image Section -->
-                            <div class="w-full h-[320px] bg-[#081F3D] flex items-center justify-center overflow-hidden">
+                            <div class="w-full h-[220px] md:h-[320px] bg-[#081F3D] flex items-center justify-center overflow-hidden shrink-0">
                                 <img src="{{ asset('assets/images/Our-proud-alumnus.webp') }}" alt="Featured Alumnus"
                                     class="w-full h-full object-contain group-hover:scale-105 transition duration-500"
                                     onclick="openPreview(0)">
                             </div>
                             <!-- Content Section -->
                             <a href="#news-events" class="p-6 flex flex-col">
-                                <span class="text-xs font-semibold text-secondary  tracking-wider mb-2">Latest
+                                <span class="text-xs font-semibold text-secondary tracking-wider mb-2">Latest
                                     News</span>
                                 <h4
                                     class="text-darktext font-medium text-sm md:text-md group-hover:text-primary transition leading-relaxed mb-3">
                                     From Campus to the Global Stage — Celebrating an Extraordinary Alumnus!
                                 </h4>
                                 <span
-                                    class="text-primary text-xs font-semibold group-hover:text-secondary transition inline-flex items-center">
+                                    class="text-primary text-xs font-semibold group-hover:text-secondary transition inline-flex items-center mt-auto">
                                     Read more <i class="fa-solid fa-arrow-right ml-1"></i>
                                 </span>
                             </a>
@@ -93,28 +93,28 @@
 
                     <!-- Slide 2: Engineers Card -->
                     <div
-                        class="absolute inset-0 transition-opacity duration-1000 ease-in-out hero-slide slider-item opacity-0 pointer-events-none flex items-center justify-center md:justify-end w-full h-full p-4">
+                        class="absolute inset-0 transition-opacity duration-1000 ease-in-out hero-slide slider-item opacity-0 pointer-events-none flex items-center justify-center lg:justify-end w-full h-full p-4">
 
                         <div
                             class="bg-white/90 backdrop-blur-md border border-white/50 rounded-2xl shadow-xl overflow-hidden flex flex-col w-full md:max-w-[550px] cursor-pointer hover:-translate-y-1 transition transform group border-b-4 border-secondary">
                             <!-- Image Section -->
-                            <div class="w-full h-[320px] overflow-hidden bg-gray-100">
+                            <div class="w-full h-[220px] md:h-[320px] overflow-hidden bg-gray-100 shrink-0">
                                 <img src="{{ asset('assets/images/Engineers.jpg') }}" alt="Engineers"
                                     class="w-full h-full object-contain group-hover:scale-105 transition duration-500"
                                     onclick="openPreview(1)">
                             </div>
                             <!-- Content Section -->
                             <a href="#" class="p-6 flex flex-col">
-                                <span class="text-xs font-semibold text-secondary  tracking-wider mb-2">Leadership
+                                <span class="text-xs font-semibold text-secondary tracking-wider mb-2">Leadership
                                     Vision</span>
                                 <h4
-                                    class="text-darktext font-medium text-sm md:text-md group-hover:text-primary transition leading-relaxed mb-2 ">
+                                    class="text-darktext font-medium text-sm md:text-md group-hover:text-primary transition leading-relaxed mb-2">
                                     "Engineers, AI won’t replace you. Curiosity, resilience and adaptability will define
                                     your future"
                                 </h4>
                                 <p class="text-xs text-gray-500 mb-3 font-light">- Mr. Chocko Valliappa, Vice Chairman</p>
                                 <span
-                                    class="text-primary text-xs font-semibold group-hover:text-secondary transition inline-flex items-center">
+                                    class="text-primary text-xs font-semibold group-hover:text-secondary transition inline-flex items-center mt-auto">
                                     Read more <i class="fa-solid fa-arrow-right ml-1"></i>
                                 </span>
                             </a>
@@ -123,25 +123,24 @@
                     </div>
                     <!-- Slide 3: Engineers Card -->
                     <div
-                        class="absolute inset-0 transition-opacity duration-1000 ease-in-out hero-slide slider-item opacity-0 pointer-events-none flex items-center justify-center md:justify-end w-full h-full p-4">
+                        class="absolute inset-0 transition-opacity duration-1000 ease-in-out hero-slide slider-item opacity-0 pointer-events-none flex items-center justify-center lg:justify-end w-full h-full p-4">
 
                         <div
                             class="bg-white/90 backdrop-blur-md border border-white/50 rounded-2xl shadow-xl overflow-hidden flex flex-col w-full md:max-w-[550px] cursor-pointer hover:-translate-y-1 transition transform group border-b-4 border-secondary">
                             <!-- Image Section -->
-                            <div class="w-full h-[320px] overflow-hidden bg-gray-100">
+                            <div class="w-full h-[220px] md:h-[320px] overflow-hidden bg-gray-100 shrink-0">
                                 <img src="{{ asset('assets/images/test-1.jpg') }}" alt="Engineers"
                                     class="w-full h-full object-contain group-hover:scale-105 transition duration-500"
                                     onclick="openPreview(2)">
                             </div>
                             <!-- Content Section -->
                             <a href="#" class="p-6 flex flex-col">
-                                <span class="text-xs font-semibold text-secondary  tracking-wider mb-2">Leadership
+                                <span class="text-xs font-semibold text-secondary tracking-wider mb-2">Leadership
                                     Vision</span>
                                 <h4
-                                    class="text-darktext font-medium text-sm md:text-md group-hover:text-primary transition leading-relaxed mb-2 ">
+                                    class="text-darktext font-medium text-sm md:text-md group-hover:text-primary transition leading-relaxed mb-2">
                                     1st Position among 7000 colleges across India
                                 </h4>
-
                             </a>
                         </div>
 
@@ -408,7 +407,7 @@
 
                 <h2 class="text-4xl md:text-5xl font-bold text-white">Explore Our <span class="text-white">Research</span>
                 </h2>
-                <p class="text-gray-300 text-md md:text-lg font-light mt-6 leading-relaxed max-w-5xl">
+                <p class="text-gray-300 text-md md:text-lg font-light mt-6 leading-relaxed max-w-5xl text-justify">
                     Sona College of Technology fosters a vibrant research culture where learning is a celebration. With 36+
                     Research & Centres of Excellence, the institution promotes interdisciplinary research, innovation,
                     product development, industry collaboration, and hands-on learning in emerging technologies, empowering
@@ -512,7 +511,7 @@
                     <p class="text-gray-600 font-medium mt-1 md:mt-2 text-sm md:text-base leading-tight">Highest Stipend
                     </p>
                 </div>
-            </div>
+            </div> <!-- Close container here -->
 
             <!-- Bottom Logos Slider -->
             <style>
@@ -534,7 +533,7 @@
                     animation-play-state: paused;
                 }
             </style>
-            <div class="w-[100vw] relative left-1/2 -translate-x-1/2 overflow-hidden border-y border-gray-200 bg-white">
+            <div class="w-full relative overflow-hidden border-y border-gray-200 bg-white">
                 <!-- Fade Gradients -->
                 <div
                     class="absolute inset-y-0 left-0 w-24 bg-gradient-to-r from-white to-transparent z-10 pointer-events-none">
@@ -649,8 +648,6 @@
                     </div>
                 </div>
             </div>
-
-        </div>
     </section>
 
     <section class="py-10 relative overflow-hidden bg-fixed bg-cover bg-center"
@@ -658,7 +655,7 @@
         <div class="container mx-auto px-6 lg:px-16 relative z-10 text-center">
             <h2 class="text-4xl md:text-5xl font-light text-white mb-6">Virtual Campus Tour</h2>
 
-            <p class="text-gray-300 text-md md:text-xl font-light max-w-3xl mx-auto mb-10 leading-relaxed">
+            <p class="text-gray-300 text-md md:text-xl font-light max-w-3xl mx-auto mb-10 leading-relaxed text-justify">
                 Digitally navigate our smart classrooms, advanced research labs, extensive library, premium hostels,
                 expansive sports complex, and premium campus infrastructure from anywhere in the world.
             </p>

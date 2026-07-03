@@ -33,8 +33,8 @@
 
         <a href="{{ url('/') }}" class="flex items-center shrink-0">
             <img src="{{ asset('assets/images/logo.PNG') }}" alt="Sona College"
-                class="h-14 w-[320px] object-contain object-left duration-300" width="320" height="56"
-                id="header-logo">
+                class="h-10 md:h-14 w-[220px] md:w-[320px] object-contain object-left duration-300 max-w-full"
+                width="320" height="56" id="header-logo">
         </a>
 
         <!-- Desktop Links -->
@@ -777,23 +777,28 @@
         <!-- Actions -->
         <div class="flex items-center space-x-4">
             <!-- Expanding Search Bar -->
-            <div class="relative flex items-center h-10 transition-all duration-300 ease-in-out w-10" id="search-wrapper">
-                <form id="search-form" onsubmit="event.preventDefault();" class="absolute right-0 flex items-center w-full h-full">
-                    <input type="text" name="q" id="search-input" placeholder="Search..." autocomplete="off"
-                           class="absolute right-0 h-full w-0 opacity-0 bg-white/10 text-white placeholder-white/70 border border-transparent rounded-full pl-10 pr-4 focus:outline-none focus:border-[#081F3D] transition-all duration-300 ease-in-out pointer-events-none text-sm">
-                    <button type="button" id="search-toggle" class="absolute right-0 h-full w-10 flex items-center justify-center hover:text-[#081F3D] transition-all duration-300 z-10">
+            <div class="relative flex items-center h-10 transition-all duration-300 ease-in-out w-10"
+                id="search-wrapper">
+                <form id="search-form" onsubmit="event.preventDefault();"
+                    class="absolute right-0 flex items-center w-full h-full">
+                    <input type="text" name="q" id="search-input" placeholder="Search..."
+                        autocomplete="off"
+                        class="absolute right-0 h-full w-0 opacity-0 bg-white/10 text-white placeholder-white/70 border border-transparent rounded-full pl-10 pr-4 focus:outline-none focus:border-[#081F3D] transition-all duration-300 ease-in-out pointer-events-none text-sm">
+                    <button type="button" id="search-toggle"
+                        class="absolute right-0 h-full w-10 flex items-center justify-center hover:text-[#081F3D] transition-all duration-300 z-10">
                         <i class="fa-solid fa-magnifying-glass text-lg"></i>
                     </button>
                 </form>
-                
+
                 <!-- Search Results Dropdown -->
-                <div id="search-results" class="absolute top-[45px] right-0 w-64 bg-white rounded-lg shadow-xl overflow-hidden hidden flex-col z-[100] max-h-80 overflow-y-auto">
+                <div id="search-results"
+                    class="absolute top-[45px] right-0 w-64 bg-white rounded-lg shadow-xl overflow-hidden hidden flex-col z-[100] max-h-80 overflow-y-auto">
                     <!-- Results will be injected here by JS -->
                 </div>
             </div>
-            
+
             <a href="#"
-                class="bg-yellow-500 hover:bg-yellow-400 text-[#081F3D] font-medium text-md px-6 py-2.5 rounded transition shadow whitespace-nowrap">Apply
+                class="hidden md:inline-block bg-yellow-500 hover:bg-yellow-400 text-[#081F3D] font-medium text-md px-6 py-2.5 rounded transition shadow whitespace-nowrap">Apply
                 Now</a>
             <button id="open-mobile-menu" class="xl:hidden text-2xl p-2"><i class="fa-solid fa-bars"></i></button>
         </div>
@@ -808,13 +813,36 @@
             const searchResults = document.getElementById('search-results');
 
             // 1. Define your pages and their content here for the frontend search
-            const siteIndex = [
-                { title: 'Home', url: '{{ url("/") }}', content: 'Welcome to Sona College of Technology, Learning is a Celebration. Apply now for admissions.' },
-                { title: 'History', url: '{{ url("/about/history") }}', content: 'The Sona Group is steeped in more than 100 years of success and tradition tracing back to pre-Independence.' },
-                { title: 'Vision and Mission', url: '{{ url("/about/vision-and-mission") }}', content: 'Our vision and mission for Sona College of Technology.' },
-                { title: 'Core Values', url: '{{ url("/about/core-values") }}', content: 'The core values and principles we follow at Sona College.' },
-                { title: 'Perspective Plan', url: '{{ url("/about/perspective-plan") }}', content: 'Long term perspective plan and strategic goals.' },
-                { title: 'Quality Policy', url: '{{ url("/about/quality-policy") }}', content: 'Our commitment to quality education and continuous improvement.' }
+            const siteIndex = [{
+                    title: 'Home',
+                    url: '{{ url('/') }}',
+                    content: 'Sona College of Technology, Learning is a Celebration. Apply now for admissions.'
+                },
+                {
+                    title: 'History',
+                    url: '{{ url('/about/history') }}',
+                    content: 'The Sona Group is steeped in more than 100 years of success and tradition tracing back to pre-Independence.'
+                },
+                {
+                    title: 'Vision and Mission',
+                    url: '{{ url('/about/vision-and-mission') }}',
+                    content: 'Our vision and mission for Sona College of Technology.'
+                },
+                {
+                    title: 'Core Values',
+                    url: '{{ url('/about/core-values') }}',
+                    content: 'The core values and principles we follow at Sona College.'
+                },
+                {
+                    title: 'Perspective Plan',
+                    url: '{{ url('/about/perspective-plan') }}',
+                    content: 'Long term perspective plan and strategic goals.'
+                },
+                {
+                    title: 'Quality Policy',
+                    url: '{{ url('/about/quality-policy') }}',
+                    content: 'Our commitment to quality education and continuous improvement.'
+                }
             ];
 
             searchToggle.addEventListener('click', function(e) {
@@ -835,15 +863,15 @@
 
             function performSearch() {
                 const query = searchInput.value.toLowerCase().trim();
-                
+
                 if (query.length < 2) {
                     searchResults.classList.add('hidden');
                     return;
                 }
 
                 // Filter the index by title (name), content, or URL
-                const results = siteIndex.filter(page => 
-                    page.title.toLowerCase().includes(query) || 
+                const results = siteIndex.filter(page =>
+                    page.title.toLowerCase().includes(query) ||
                     page.content.toLowerCase().includes(query) ||
                     page.url.toLowerCase().includes(query)
                 );
@@ -854,7 +882,8 @@
                     results.forEach(result => {
                         const link = document.createElement('a');
                         link.href = result.url;
-                        link.className = 'block px-4 py-3 hover:bg-gray-100 border-b border-gray-100 last:border-0 transition-colors';
+                        link.className =
+                            'block px-4 py-3 hover:bg-gray-100 border-b border-gray-100 last:border-0 transition-colors';
                         link.innerHTML = `
                             <div class="text-[#081F3D] font-medium text-sm">${result.title}</div>
                             <div class="text-gray-500 text-xs mt-1 truncate">${result.content}</div>
@@ -862,9 +891,10 @@
                         searchResults.appendChild(link);
                     });
                 } else {
-                    searchResults.innerHTML = `<div class="px-4 py-3 text-gray-500 text-sm italic">No results found for "${query}"</div>`;
+                    searchResults.innerHTML =
+                        `<div class="px-4 py-3 text-gray-500 text-sm italic">No results found for "${query}"</div>`;
                 }
-                
+
                 searchResults.classList.remove('hidden');
                 searchResults.classList.add('flex');
             }
@@ -872,26 +902,26 @@
             function openSearch() {
                 searchWrapper.classList.remove('w-10');
                 searchWrapper.classList.add('w-64');
-                
+
                 searchInput.classList.remove('w-0', 'opacity-0', 'border-transparent', 'pointer-events-none');
                 searchInput.classList.add('w-full', 'opacity-100', 'border-white/20', 'pointer-events-auto');
-                
+
                 searchToggle.classList.remove('right-0');
                 searchToggle.classList.add('left-0');
-                
+
                 setTimeout(() => searchInput.focus(), 300);
             }
 
             function closeSearch() {
                 searchWrapper.classList.remove('w-64');
                 searchWrapper.classList.add('w-10');
-                
+
                 searchInput.classList.remove('w-full', 'opacity-100', 'border-white/20', 'pointer-events-auto');
                 searchInput.classList.add('w-0', 'opacity-0', 'border-transparent', 'pointer-events-none');
-                
+
                 searchToggle.classList.remove('left-0');
                 searchToggle.classList.add('right-0');
-                
+
                 searchResults.classList.add('hidden');
                 searchResults.classList.remove('flex');
                 searchInput.value = '';
