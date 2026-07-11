@@ -69,8 +69,7 @@
         <div class="site-header__inner">
             <a href="{{ url('/') }}" class="site-brand site-brand--hero"
                 aria-label="Sona College of Technology Home">
-                <img src="{{ asset(file_exists(public_path('images/logo.png')) ? 'images/logo.png' : 'images/logo.svg') }}"
-                    alt="Sona College of Technology — Learning is a Celebration!" class="site-brand__logo-img"
+                <img src="{{ asset('images/logo.PNG') }}" alt="Sona College of Technology" class="site-brand__logo-img"
                     width="220" height="64">
             </a>
 
