@@ -25,8 +25,7 @@
                     'image' => 'images/hero/hero-bg.jpg',
                     'orientation' => 'landscape',
                     'alt' => 'Campus life at Sona College of Technology',
-                    'quote' =>
-                        'We nurture engineers who lead with integrity, innovation, and a commitment to society.',
+                    'quote' => 'We nurture engineers who lead with integrity, innovation, and a commitment to society.',
                     'author' => 'Sona College of Technology',
                     'link' => '#about',
                     'link_text' => 'Read more',
@@ -42,7 +41,7 @@
                         continue;
                     }
 
-                    if (! preg_match('/\.(jpe?g|png|webp)$/i', $file)) {
+                    if (!preg_match('/\.(jpe?g|png|webp)$/i', $file)) {
                         continue;
                     }
 
@@ -51,9 +50,7 @@
             }
 
             foreach ($carouselImagePaths as $imagePath) {
-                $alreadyListed = collect($heroLeadershipSlides)->contains(
-                    fn($slide) => $slide['image'] === $imagePath,
-                );
+                $alreadyListed = collect($heroLeadershipSlides)->contains(fn($slide) => $slide['image'] === $imagePath);
 
                 if ($alreadyListed) {
                     continue;
@@ -185,14 +182,13 @@
 
                             <div class="hero__card-stage">
                                 @foreach ($heroLeadershipSlides as $index => $slide)
-                                    <aside
-                                        class="hero__card hero__card-slide{{ $index === 0 ? ' is-active' : '' }}"
+                                    <aside class="hero__card hero__card-slide{{ $index === 0 ? ' is-active' : '' }}"
                                         aria-label="Leadership vision slide {{ $index + 1 }} of {{ count($heroLeadershipSlides) }}"
                                         @if ($index !== 0) hidden @endif>
                                         <div
                                             class="hero__card-media hero__card-media--{{ $slide['orientation'] ?? 'landscape' }}">
-                                            <img src="{{ asset($slide['image']) }}"
-                                                alt="{{ $slide['alt'] ?? '' }}" width="420" height="260"
+                                            <img src="{{ asset($slide['image']) }}" alt="{{ $slide['alt'] ?? '' }}"
+                                                width="420" height="260"
                                                 loading="{{ $index === 0 ? 'eager' : 'lazy' }}" decoding="async">
                                             <span class="hero__card-badge">
                                                 <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"
@@ -221,11 +217,11 @@
                             </div>
 
                             @if (count($heroLeadershipSlides) > 1)
-                                <div class="hero__card-dots" role="tablist"
-                                    aria-label="Leadership slide pagination">
+                                <div class="hero__card-dots" role="tablist" aria-label="Leadership slide pagination">
                                     @foreach ($heroLeadershipSlides as $index => $slide)
-                                        <button type="button" class="hero__card-dot{{ $index === 0 ? ' is-active' : '' }}"
-                                            role="tab" aria-label="Go to slide {{ $index + 1 }}"
+                                        <button type="button"
+                                            class="hero__card-dot{{ $index === 0 ? ' is-active' : '' }}" role="tab"
+                                            aria-label="Go to slide {{ $index + 1 }}"
                                             aria-selected="{{ $index === 0 ? 'true' : 'false' }}"></button>
                                     @endforeach
                                 </div>
@@ -625,8 +621,8 @@
         </div>
     </section>
     <section class="rankings-about" id="about" aria-labelledby="rankings-about-title">
-        <figure class="rankings-about__scene" aria-hidden="true">
-            <img src="{{ asset('images/slide.webp') }}" alt="" loading="lazy" decoding="async">
+        <figure class="rankings-about__scene" aria-hidden="true" style="background-image: url('{{ asset('images/slide.webp') }}'); background-attachment: fixed; background-size: cover; background-position: center;">
+            <img src="{{ asset('images/slide.webp') }}" alt="" loading="lazy" decoding="async" style="display: none;">
         </figure>
         <div class="rankings-about__overlay" aria-hidden="true"></div>
 
@@ -1303,165 +1299,165 @@
             var slider = document.querySelector('[data-campus-news-slider]');
             if (slider) {
 
-            var stage = slider.querySelector('.campus-news__stage');
-            var slides = Array.prototype.slice.call(slider.querySelectorAll('.campus-news__slide'));
-            var thumbs = Array.prototype.slice.call(slider.querySelectorAll('.campus-news__thumb'));
-            var prevBtn = slider.querySelector('.campus-news__arrow--prev');
-            var nextBtn = slider.querySelector('.campus-news__arrow--next');
-            var typeFilter = document.querySelector('[data-news-type-filter]');
-            var categoryFilter = document.querySelector('[data-news-category-filter]');
-            var current = 0;
-            var timer = null;
-            var delay = 5000;
-            var isPaused = false;
+                var stage = slider.querySelector('.campus-news__stage');
+                var slides = Array.prototype.slice.call(slider.querySelectorAll('.campus-news__slide'));
+                var thumbs = Array.prototype.slice.call(slider.querySelectorAll('.campus-news__thumb'));
+                var prevBtn = slider.querySelector('.campus-news__arrow--prev');
+                var nextBtn = slider.querySelector('.campus-news__arrow--next');
+                var typeFilter = document.querySelector('[data-news-type-filter]');
+                var categoryFilter = document.querySelector('[data-news-category-filter]');
+                var current = 0;
+                var timer = null;
+                var delay = 5000;
+                var isPaused = false;
 
-            function getVisibleIndices() {
-                return slides.map(function(slide, index) {
-                    return slide.classList.contains('is-filtered-out') ? -1 : index;
-                }).filter(function(index) {
-                    return index !== -1;
-                });
-            }
-
-            function goTo(index) {
-                current = index;
-
-                slides.forEach(function(slide, i) {
-                    var filtered = slide.classList.contains('is-filtered-out');
-                    var isActive = i === current && !filtered;
-                    slide.classList.toggle('is-active', isActive);
-                    slide.hidden = !isActive;
-                });
-
-                thumbs.forEach(function(thumb, i) {
-                    var filtered = thumb.classList.contains('is-filtered-out');
-                    var isActive = i === current && !filtered;
-                    thumb.classList.toggle('is-active', isActive);
-                    thumb.setAttribute('aria-selected', isActive ? 'true' : 'false');
-                });
-            }
-
-            function goToFirstVisible() {
-                var visible = getVisibleIndices();
-                if (visible.length) {
-                    goTo(visible[0]);
+                function getVisibleIndices() {
+                    return slides.map(function(slide, index) {
+                        return slide.classList.contains('is-filtered-out') ? -1 : index;
+                    }).filter(function(index) {
+                        return index !== -1;
+                    });
                 }
-            }
 
-            function next() {
-                var visible = getVisibleIndices();
-                if (visible.length < 2) return;
+                function goTo(index) {
+                    current = index;
 
-                var position = visible.indexOf(current);
-                var nextIndex = position === -1 ? visible[0] : visible[(position + 1) % visible.length];
-                goTo(nextIndex);
-            }
+                    slides.forEach(function(slide, i) {
+                        var filtered = slide.classList.contains('is-filtered-out');
+                        var isActive = i === current && !filtered;
+                        slide.classList.toggle('is-active', isActive);
+                        slide.hidden = !isActive;
+                    });
 
-            function prev() {
-                var visible = getVisibleIndices();
-                if (visible.length < 2) return;
+                    thumbs.forEach(function(thumb, i) {
+                        var filtered = thumb.classList.contains('is-filtered-out');
+                        var isActive = i === current && !filtered;
+                        thumb.classList.toggle('is-active', isActive);
+                        thumb.setAttribute('aria-selected', isActive ? 'true' : 'false');
+                    });
+                }
 
-                var position = visible.indexOf(current);
-                var prevIndex = position === -1 ? visible[0] : visible[(position - 1 + visible.length) % visible
-                    .length];
-                goTo(prevIndex);
-            }
+                function goToFirstVisible() {
+                    var visible = getVisibleIndices();
+                    if (visible.length) {
+                        goTo(visible[0]);
+                    }
+                }
 
-            function applyFilters() {
-                var typeValue = typeFilter ? typeFilter.value : 'all';
-                var categoryValue = categoryFilter ? categoryFilter.value : 'all';
+                function next() {
+                    var visible = getVisibleIndices();
+                    if (visible.length < 2) return;
 
-                slides.forEach(function(slide, index) {
-                    var matchesType = typeValue === 'all' || slide.dataset.newsType === typeValue;
-                    var matchesCategory = categoryValue === 'all' || slide.dataset.newsCategory ===
-                        categoryValue;
-                    var isVisible = matchesType && matchesCategory;
+                    var position = visible.indexOf(current);
+                    var nextIndex = position === -1 ? visible[0] : visible[(position + 1) % visible.length];
+                    goTo(nextIndex);
+                }
 
-                    slide.classList.toggle('is-filtered-out', !isVisible);
-                    if (thumbs[index]) {
-                        thumbs[index].classList.toggle('is-filtered-out', !isVisible);
-                        thumbs[index].disabled = !isVisible;
+                function prev() {
+                    var visible = getVisibleIndices();
+                    if (visible.length < 2) return;
+
+                    var position = visible.indexOf(current);
+                    var prevIndex = position === -1 ? visible[0] : visible[(position - 1 + visible.length) % visible
+                        .length];
+                    goTo(prevIndex);
+                }
+
+                function applyFilters() {
+                    var typeValue = typeFilter ? typeFilter.value : 'all';
+                    var categoryValue = categoryFilter ? categoryFilter.value : 'all';
+
+                    slides.forEach(function(slide, index) {
+                        var matchesType = typeValue === 'all' || slide.dataset.newsType === typeValue;
+                        var matchesCategory = categoryValue === 'all' || slide.dataset.newsCategory ===
+                            categoryValue;
+                        var isVisible = matchesType && matchesCategory;
+
+                        slide.classList.toggle('is-filtered-out', !isVisible);
+                        if (thumbs[index]) {
+                            thumbs[index].classList.toggle('is-filtered-out', !isVisible);
+                            thumbs[index].disabled = !isVisible;
+                        }
+                    });
+
+                    goToFirstVisible();
+                    restartAutoplay();
+                }
+
+                function scheduleAutoplay() {
+                    stopAutoplay();
+                    if (isPaused || getVisibleIndices().length < 2) return;
+
+                    timer = window.setTimeout(function() {
+                        next();
+                        scheduleAutoplay();
+                    }, delay);
+                }
+
+                function stopAutoplay() {
+                    if (timer) {
+                        window.clearTimeout(timer);
+                        timer = null;
+                    }
+                }
+
+                function restartAutoplay() {
+                    stopAutoplay();
+                    scheduleAutoplay();
+                }
+
+                thumbs.forEach(function(thumb, index) {
+                    thumb.addEventListener('click', function() {
+                        if (thumb.classList.contains('is-filtered-out')) return;
+                        goTo(index);
+                        restartAutoplay();
+                    });
+                });
+
+                if (prevBtn) {
+                    prevBtn.addEventListener('click', function() {
+                        prev();
+                        restartAutoplay();
+                    });
+                }
+
+                if (nextBtn) {
+                    nextBtn.addEventListener('click', function() {
+                        next();
+                        restartAutoplay();
+                    });
+                }
+
+                if (typeFilter) {
+                    typeFilter.addEventListener('change', applyFilters);
+                }
+
+                if (categoryFilter) {
+                    categoryFilter.addEventListener('change', applyFilters);
+                }
+
+                if (stage) {
+                    stage.addEventListener('mouseenter', function() {
+                        isPaused = true;
+                        stopAutoplay();
+                    });
+
+                    stage.addEventListener('mouseleave', function() {
+                        isPaused = false;
+                        scheduleAutoplay();
+                    });
+                }
+
+                document.addEventListener('visibilitychange', function() {
+                    if (document.hidden) {
+                        stopAutoplay();
+                    } else if (!isPaused) {
+                        scheduleAutoplay();
                     }
                 });
 
-                goToFirstVisible();
-                restartAutoplay();
-            }
-
-            function scheduleAutoplay() {
-                stopAutoplay();
-                if (isPaused || getVisibleIndices().length < 2) return;
-
-                timer = window.setTimeout(function() {
-                    next();
-                    scheduleAutoplay();
-                }, delay);
-            }
-
-            function stopAutoplay() {
-                if (timer) {
-                    window.clearTimeout(timer);
-                    timer = null;
-                }
-            }
-
-            function restartAutoplay() {
-                stopAutoplay();
+                goTo(0);
                 scheduleAutoplay();
-            }
-
-            thumbs.forEach(function(thumb, index) {
-                thumb.addEventListener('click', function() {
-                    if (thumb.classList.contains('is-filtered-out')) return;
-                    goTo(index);
-                    restartAutoplay();
-                });
-            });
-
-            if (prevBtn) {
-                prevBtn.addEventListener('click', function() {
-                    prev();
-                    restartAutoplay();
-                });
-            }
-
-            if (nextBtn) {
-                nextBtn.addEventListener('click', function() {
-                    next();
-                    restartAutoplay();
-                });
-            }
-
-            if (typeFilter) {
-                typeFilter.addEventListener('change', applyFilters);
-            }
-
-            if (categoryFilter) {
-                categoryFilter.addEventListener('change', applyFilters);
-            }
-
-            if (stage) {
-                stage.addEventListener('mouseenter', function() {
-                    isPaused = true;
-                    stopAutoplay();
-                });
-
-                stage.addEventListener('mouseleave', function() {
-                    isPaused = false;
-                    scheduleAutoplay();
-                });
-            }
-
-            document.addEventListener('visibilitychange', function() {
-                if (document.hidden) {
-                    stopAutoplay();
-                } else if (!isPaused) {
-                    scheduleAutoplay();
-                }
-            });
-
-            goTo(0);
-            scheduleAutoplay();
             }
 
         });
