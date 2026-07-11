@@ -598,14 +598,6 @@
                             <input type="search" id="hero-search-input" name="q" class="hero-search__input"
                                 placeholder="Search..." autocomplete="off">
                         </form>
-                        <button type="button" class="hero-nav__search" aria-expanded="false"
-                            aria-controls="hero-search-input" aria-label="Toggle search">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none"
-                                stroke="currentColor" stroke-width="2" aria-hidden="true">
-                                <circle cx="11" cy="11" r="8"></circle>
-                                <path d="m21 21-4.35-4.35"></path>
-                            </svg>
-                        </button>
                     </div>
                     <a href="{{ url('/#admissions') }}" class="btn btn-accent">Apply Now</a>
                 </div>
@@ -745,6 +737,16 @@
                     closeMobileNav();
                 }
             });
+
+            var heroHeader = document.querySelector('.hero-header');
+            if (heroHeader && document.body.classList.contains('is-home')) {
+                function updateHeaderScroll() {
+                    heroHeader.classList.toggle('is-scrolled', window.scrollY > 24);
+                }
+
+                window.addEventListener('scroll', updateHeaderScroll, { passive: true });
+                updateHeaderScroll();
+            }
         })();
     </script>
 @endpush

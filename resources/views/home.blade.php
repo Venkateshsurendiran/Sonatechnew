@@ -5,53 +5,316 @@
 @section('content')
     <section class="hero" aria-label="Welcome">
         @php
-            $heroVideoPath = collect(['videos/hero/home-banner.mp4', 'images/home-banner.mp4'])
-                ->first(fn ($path) => file_exists(public_path($path)));
+            $heroVideoPath = collect(['videos/hero/home-banner.mp4', 'images/home-banner.mp4'])->first(
+                fn($path) => file_exists(public_path($path)),
+            );
+            $heroPosterImage = file_exists(public_path('images/slide-1.webp'))
+                ? 'images/slide-1.webp'
+                : 'images/hero/leadership-card.jpg';
+
+            $heroSlideCatalog = [
+                'leadership-card' => [
+                    'src' => 'images/hero/leadership-card.jpg',
+                    'alt' => 'Student working with engineering equipment in the lab',
+                    'badge' => 'Leadership Vision',
+                    'text' =>
+                        'Engineers, AI won\'t replace you. Curiosity, resilience and adaptability will define your future.',
+                    'meta' => 'Mr. Chocko Valliappa, Vice Chairman',
+                ],
+                'slide-1' => [
+                    'src' => 'images/slide-1.webp',
+                    'alt' => 'Graduates celebrating on campus',
+                    'badge' => 'Campus Life',
+                    'text' => 'A vibrant campus where learning, innovation, and celebration come together every day.',
+                    'meta' => 'Sona College of Technology',
+                ],
+                'slide-2' => [
+                    'src' => 'images/slide-2.png',
+                    'alt' => 'Campus highlights at Sona College of Technology',
+                    'badge' => 'Campus Highlights',
+                    'text' => 'Experience world-class infrastructure designed for engineering excellence.',
+                    'meta' => 'Sona College of Technology',
+                ],
+                'slide-3' => [
+                    'src' => 'images/slide-3.png',
+                    'alt' => 'Student life at Sona College of Technology',
+                    'badge' => 'Student Life',
+                    'text' => 'A dynamic environment that nurtures talent, teamwork, and innovation.',
+                    'meta' => 'Learning is a Celebration',
+                ],
+                'campus-life' => [
+                    'src' => 'images/news/campus-life.jpg',
+                    'alt' => 'Students collaborating on campus',
+                    'badge' => 'Student Success',
+                    'text' =>
+                        'Hands-on learning, mentorship, and industry exposure shape confident engineering graduates.',
+                    'meta' => 'Industry-Ready Education',
+                ],
+                'research' => [
+                    'src' => 'images/news/research.jpg',
+                    'alt' => 'Research and innovation at Sona',
+                    'badge' => 'Research Excellence',
+                    'text' =>
+                        'Faculty and students collaborate on mission-driven research with national and global impact.',
+                    'meta' => '36+ Research Centres',
+                ],
+                'featured' => [
+                    'src' => 'images/news/featured.jpg',
+                    'alt' => 'Students preparing for career opportunities',
+                    'badge' => 'Career Growth',
+                    'text' =>
+                        'Sona graduates are prepared to lead across engineering, research, and global enterprises.',
+                    'meta' => 'Placement Excellence',
+                ],
+            ];
+
+            $resolveHeroOrientation = static function (string $src, ?string $orientation = null): string {
+                if (in_array($orientation, ['portrait', 'landscape'], true)) {
+                    return $orientation;
+                }
+
+                $absolutePath = public_path($src);
+                if (!is_file($absolutePath)) {
+                    return 'landscape';
+                }
+
+                $size = @getimagesize($absolutePath);
+                if (!$size) {
+                    return 'landscape';
+                }
+
+                return $size[1] > $size[0] ? 'portrait' : 'landscape';
+            };
+
+            $buildHeroSlide = static function (array $slide) use ($resolveHeroOrientation): ?array {
+                if (empty($slide['src']) || !file_exists(public_path($slide['src']))) {
+                    return null;
+                }
+
+                $slide['orientation'] = $resolveHeroOrientation($slide['src'], $slide['orientation'] ?? null);
+
+                return $slide;
+            };
+
+            $heroSlides = collect();
+            $carouselDir = public_path('images/hero/carousel');
+
+            if (is_dir($carouselDir)) {
+                $carouselFiles = array_diff(scandir($carouselDir), ['.', '..']);
+                sort($carouselFiles);
+
+                foreach ($carouselFiles as $file) {
+                    $extension = strtolower(pathinfo($file, PATHINFO_EXTENSION));
+                    if (!in_array($extension, ['webp', 'png', 'jpg', 'jpeg'], true)) {
+                        continue;
+                    }
+
+                    $stem = pathinfo($file, PATHINFO_FILENAME);
+                    $src = 'images/hero/carousel/' . $file;
+                    $defaults = $heroSlideCatalog[$stem] ?? [];
+                    $slide = $buildHeroSlide(
+                        array_merge(
+                            [
+                                'src' => $src,
+                                'alt' => ucwords(str_replace(['-', '_'], ' ', $stem)),
+                                'badge' => 'Campus Highlights',
+                                'text' => 'Discover excellence in engineering education at Sona College of Technology.',
+                                'meta' => 'Sona College of Technology',
+                            ],
+                            $defaults,
+                            ['src' => $src],
+                        ),
+                    );
+
+                    if ($slide) {
+                        $heroSlides->push($slide);
+                    }
+                }
+            }
+
+            if ($heroSlides->isEmpty()) {
+                $heroSlides = collect(array_values($heroSlideCatalog))
+                    ->map(fn($slide) => $buildHeroSlide($slide))
+                    ->filter()
+                    ->values();
+            }
+
+            $heroSlides = $heroSlides->all();
+
+            $heroStats = [
+                [
+                    'icon' => 'years',
+                    'value' => '27+',
+                    'label' => 'Years of Excellence',
+                ],
+                [
+                    'icon' => 'students',
+                    'value' => '18,000+',
+                    'label' => 'Students',
+                ],
+                [
+                    'icon' => 'programs',
+                    'value' => '36+',
+                    'label' => 'Research Centres',
+                ],
+                [
+                    'icon' => 'recruiters',
+                    'value' => '200+',
+                    'label' => 'Recruiters',
+                ],
+                [
+                    'icon' => 'package',
+                    'value' => '37 LPA',
+                    'label' => 'Highest Package',
+                ],
+            ];
         @endphp
         <div class="hero__background" role="presentation">
-            <img class="hero__poster" src="{{ asset('images/hero/hero-bg.jpg') }}" alt="" width="1920" height="1080"
+            <img class="hero__poster" src="{{ asset($heroPosterImage) }}" alt="" width="1920" height="1080"
                 fetchpriority="high">
             @if ($heroVideoPath)
                 <video class="hero__video" autoplay muted loop playsinline webkit-playsinline preload="auto"
-                    poster="{{ asset('images/hero/hero-bg.jpg') }}">
+                    poster="{{ asset($heroPosterImage) }}">
                     <source src="{{ asset($heroVideoPath) }}" type="video/mp4">
                 </video>
             @endif
         </div>
         <div class="hero__overlay" aria-hidden="true"></div>
 
-        <div class="container hero__inner">
-            <div class="hero__copy">
-                <h1>Building Future Engineers, Innovators &amp; Global Leaders</h1>
-                <p class="hero__tagline">
-                    NAAC A++ Accredited &bull; NBA Accredited &bull; NIRF Ranked &bull; Autonomous Institution
-                    Empowering Excellence in Engineering, Research &amp; Innovation.
-                </p>
-            </div>
+        <div class="container hero__shell">
+            <div class="hero__layout">
+                <div class="hero__copy">
+                    <p class="hero__kicker">NAAC A++ &bull; NBA Accredited &bull; NIRF Ranked</p>
+                    <h1>
+                        Building Future <span class="hero__highlight">Engineers,</span> Innovators &amp; Global Leaders
+                    </h1>
+                    <p class="hero__lead">
+                        Empowering excellence in engineering, research &amp; innovation since 1999.
+                    </p>
+                    <div class="hero__actions">
+                        <a href="#admission" class="btn btn-accent btn-pill hero__btn">
+                            Apply Now
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2.5" aria-hidden="true">
+                                <path d="M5 12h14M13 6l6 6-6 6" />
+                            </svg>
+                        </a>
+                        <a href="#" class="btn btn-hero-tour btn-pill hero__btn" target="_blank"
+                            rel="noopener noreferrer">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                                <path d="M8 5v14l11-7z" />
+                            </svg>
+                            Virtual Tour
+                        </a>
+                    </div>
+                </div>
 
-            <aside class="hero__card" aria-label="Leadership vision">
-                <div class="hero__card-image">
-                    <img src="{{ asset('images/hero/leadership-card.jpg') }}"
-                        alt="Student working with a robotic arm in the lab" width="400" height="240">
+                <div class="hero__visual">
+                    <div class="hero__carousel" data-hero-carousel aria-label="Campus highlights">
+                        <div
+                            class="hero__carousel-viewport{{ count($heroSlides) ? ' is-' . $heroSlides[0]['orientation'] . '-active' : '' }}">
+                            <div class="hero__carousel-track" data-hero-carousel-track aria-live="polite">
+                                @foreach ($heroSlides as $index => $slide)
+                                    <figure
+                                        class="hero__carousel-slide hero__carousel-slide--{{ $slide['orientation'] }}{{ $index === 0 ? ' is-active' : '' }}"
+                                        data-hero-slide="{{ $index }}"
+                                        data-hero-orientation="{{ $slide['orientation'] }}">
+                                        <div class="hero__carousel-media">
+                                            <img class="hero__carousel-media__fill" src="{{ asset($slide['src']) }}"
+                                                alt="" width="520" height="650" loading="lazy"
+                                                aria-hidden="true" decoding="async">
+                                            <img class="hero__carousel-media__img" src="{{ asset($slide['src']) }}"
+                                                alt="{{ $slide['alt'] }}" width="520" height="650"
+                                                loading="{{ $index === 0 ? 'eager' : 'lazy' }}"
+                                                @if ($index === 0) fetchpriority="high" @endif
+                                                decoding="async">
+                                        </div>
+                                        <figcaption class="hero__carousel-caption">
+                                            <span class="hero__carousel-badge">{{ $slide['badge'] }}</span>
+                                            <p class="hero__carousel-text">{{ $slide['text'] }}</p>
+                                            <p class="hero__carousel-meta">{{ $slide['meta'] }}</p>
+                                        </figcaption>
+                                    </figure>
+                                @endforeach
+                            </div>
+
+                            @if (count($heroSlides) > 1)
+                                <div class="hero__carousel-nav" aria-label="Hero image controls">
+                                    <button type="button" class="hero__carousel-arrow hero__carousel-arrow--prev"
+                                        aria-label="Previous slide">
+                                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
+                                            stroke="currentColor" stroke-width="2" aria-hidden="true">
+                                            <path d="M15 18l-6-6 6-6" />
+                                        </svg>
+                                    </button>
+                                    <button type="button" class="hero__carousel-arrow hero__carousel-arrow--next"
+                                        aria-label="Next slide">
+                                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
+                                            stroke="currentColor" stroke-width="2" aria-hidden="true">
+                                            <path d="M9 18l6-6-6-6" />
+                                        </svg>
+                                    </button>
+                                </div>
+                            @endif
+                        </div>
+
+                        @if (count($heroSlides) > 1)
+                            <div class="hero__carousel-dots" role="tablist" aria-label="Choose slide">
+                                @foreach ($heroSlides as $index => $slide)
+                                    <button type="button" class="hero__carousel-dot{{ $index === 0 ? ' is-active' : '' }}"
+                                        data-hero-slide-to="{{ $index }}" role="tab"
+                                        aria-label="{{ $slide['badge'] }}"
+                                        aria-selected="{{ $index === 0 ? 'true' : 'false' }}"></button>
+                                @endforeach
+                            </div>
+                        @endif
+                    </div>
                 </div>
-                <div class="hero__card-body">
-                    <p class="hero__card-label">Leadership Vision</p>
-                    <blockquote class="hero__card-quote">
-                        &ldquo;Engineers, AI won&rsquo;t replace you. Curiosity, resilience and adaptability will define
-                        your future&rdquo;
-                    </blockquote>
-                    <p class="hero__card-author">&mdash; Mr. Chocko Valliappa, Vice Chairman</p>
-                    <a href="#about" class="hero__card-link">Read more &rarr;</a>
-                </div>
-            </aside>
+            </div>
         </div>
 
-        <a href="#about" class="hero__scroll" aria-label="Scroll to content">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                aria-hidden="true">
-                <path d="M12 5v14M5 12l7 7 7-7" />
-            </svg>
-        </a>
+        <div class="hero__stats" role="list" aria-label="Institution highlights">
+            @foreach ($heroStats as $stat)
+                <div class="hero__stat" role="listitem">
+                    <span class="hero__stat-icon" aria-hidden="true">
+                        @if ($stat['icon'] === 'years')
+                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="1.75">
+                                <path d="M3 21h18M6 21V7l6-4 6 4v14" />
+                                <path d="M10 11h4M10 15h4" />
+                            </svg>
+                        @elseif ($stat['icon'] === 'students')
+                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="1.75">
+                                <path d="M17 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
+                                <circle cx="9" cy="7" r="4" />
+                                <path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75" />
+                            </svg>
+                        @elseif ($stat['icon'] === 'programs')
+                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="1.75">
+                                <path d="M22 10l-10-5L2 10l10 5 10-5z" />
+                                <path d="M6 12v5c0 1.5 3 3 6 3s6-1.5 6-3v-5" />
+                            </svg>
+                        @elseif ($stat['icon'] === 'recruiters')
+                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="1.75">
+                                <rect x="2" y="7" width="20" height="14" rx="2" />
+                                <path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2" />
+                            </svg>
+                        @else
+                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="1.75">
+                                <circle cx="12" cy="8" r="6" />
+                                <path d="M15.477 12.89L17 22l-5-3-5 3 1.523-9.11" />
+                            </svg>
+                        @endif
+                    </span>
+                    <p class="hero__stat-value">{{ $stat['value'] }}</p>
+                    <p class="hero__stat-label">{{ $stat['label'] }}</p>
+                </div>
+            @endforeach
+        </div>
     </section>
 
     @php
@@ -89,9 +352,11 @@
                             <li class="announcement-marquee__item">
                                 <a href="{{ $item['url'] }}" class="announcement-marquee__link">{{ $item['text'] }}</a>
                                 <span class="announcement-marquee__sep" aria-hidden="true">
-                                    <svg class="announcement-marquee__sep-icon" width="14" height="14" viewBox="0 0 24 24"
-                                        fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-                                        <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+                                    <svg class="announcement-marquee__sep-icon" width="14" height="14"
+                                        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                        aria-hidden="true">
+                                        <polygon
+                                            points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
                                     </svg>
                                 </span>
                             </li>
@@ -109,7 +374,12 @@
                 'items' => [
                     ['icon' => 'document', 'label' => 'Online Application', 'url' => '#', 'external' => false],
                     ['icon' => 'enquiry', 'label' => 'Online Enquiry', 'url' => '#', 'external' => false],
-                    ['icon' => 'phone', 'label' => '+91 94426 68758 / +91 98404 47392', 'url' => 'tel:+919442668758', 'external' => false],
+                    [
+                        'icon' => 'phone',
+                        'label' => '+91 94426 68758 / +91 98404 47392',
+                        'url' => 'tel:+919442668758',
+                        'external' => false,
+                    ],
                 ],
             ],
             [
@@ -117,7 +387,12 @@
                 'items' => [
                     ['icon' => 'document', 'label' => 'Online Application', 'url' => '#', 'external' => false],
                     ['icon' => 'enquiry', 'label' => 'Online Enquiry', 'url' => '#', 'external' => false],
-                    ['icon' => 'phone', 'label' => '+91 9489 600283 / +91 87781 49726', 'url' => 'tel:+919489600283', 'external' => false],
+                    [
+                        'icon' => 'phone',
+                        'label' => '+91 9489 600283 / +91 87781 49726',
+                        'url' => 'tel:+919489600283',
+                        'external' => false,
+                    ],
                 ],
             ],
             [
@@ -125,15 +400,35 @@
                 'items' => [
                     ['icon' => 'document', 'label' => 'Online Application', 'url' => '#', 'external' => false],
                     ['icon' => 'enquiry', 'label' => 'Online Enquiry', 'url' => '#', 'external' => false],
-                    ['icon' => 'phone', 'label' => '+91 0427 4099822 / +91 99948 35579', 'url' => 'tel:+914274099822', 'external' => false],
+                    [
+                        'icon' => 'phone',
+                        'label' => '+91 0427 4099822 / +91 99948 35579',
+                        'url' => 'tel:+914274099822',
+                        'external' => false,
+                    ],
                 ],
             ],
             [
                 'title' => 'Foreign Admission - Contact',
                 'items' => [
-                    ['icon' => 'phone', 'label' => '+91 94896 00282', 'url' => 'tel:+919489600282', 'external' => false],
-                    ['icon' => 'phone', 'label' => '+91 94426 68758 (For Nepal)', 'url' => 'tel:+919442668758', 'external' => false],
-                    ['icon' => 'whatsapp', 'label' => 'WhatsApp Enquiry', 'url' => 'https://wa.me/919489600282', 'external' => true],
+                    [
+                        'icon' => 'phone',
+                        'label' => '+91 94896 00282',
+                        'url' => 'tel:+919489600282',
+                        'external' => false,
+                    ],
+                    [
+                        'icon' => 'phone',
+                        'label' => '+91 94426 68758 (For Nepal)',
+                        'url' => 'tel:+919442668758',
+                        'external' => false,
+                    ],
+                    [
+                        'icon' => 'whatsapp',
+                        'label' => 'WhatsApp Enquiry',
+                        'url' => 'https://wa.me/919489600282',
+                        'external' => true,
+                    ],
                 ],
             ],
         ];
@@ -172,7 +467,8 @@
                                                     <line x1="12" y1="17" x2="12.01" y2="17" />
                                                 </svg>
                                             @elseif ($item['icon'] === 'whatsapp')
-                                                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                                                <svg width="16" height="16" viewBox="0 0 24 24"
+                                                    fill="currentColor">
                                                     <path
                                                         d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z" />
                                                     <path
@@ -290,7 +586,8 @@
                                 <path d="M15 18l-6-6 6-6" />
                             </svg>
                         </button>
-                        <button type="button" class="campus-news__arrow campus-news__arrow--next" aria-label="Next news">
+                        <button type="button" class="campus-news__arrow campus-news__arrow--next"
+                            aria-label="Next news">
                             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                 stroke-width="2" aria-hidden="true">
                                 <path d="M9 18l6-6-6-6" />
@@ -300,7 +597,8 @@
 
                     <div class="campus-news__slides" aria-live="polite">
                         @foreach ($campusNewsItems as $index => $item)
-                            <article class="campus-news__slide campus-news__featured{{ $index === 0 ? ' is-active' : '' }}"
+                            <article
+                                class="campus-news__slide campus-news__featured{{ $index === 0 ? ' is-active' : '' }}"
                                 id="campus-news-slide-{{ $index }}" data-slide="{{ $index }}"
                                 data-news-type="{{ $item['type'] }}" data-news-category="{{ $item['category'] }}"
                                 @if ($index !== 0) hidden @endif>
@@ -372,16 +670,7 @@
         <div class="container rankings-about__inner">
             <div class="rankings-about__top">
                 <div class="rankings-about__headline">
-                    <p class="rankings-about__label">
-                        <span class="rankings-about__label-icon" aria-hidden="true">
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                stroke-width="2">
-                                <path d="M22 10l-10-5L2 10l10 5 10-5z" />
-                                <path d="M6 12v5c0 1.5 3 3 6 3s6-1.5 6-3v-5" />
-                            </svg>
-                        </span>
-                        About Us
-                    </p>
+
                     <h2 class="rankings-about__title" id="rankings-about-title">
                         Empowering Engineers to Lead the Future
                     </h2>
@@ -396,7 +685,7 @@
                         and MCA programs with industry-linked learning.
                     </p>
                     <a href="{{ url('/about') }}" class="rankings-about__link">
-                       Explore Our Programs
+                        Explore Our Programs
                         <span aria-hidden="true">&rarr;</span>
                     </a>
                 </div>
@@ -565,84 +854,84 @@
         </div>
 
         @php
-                $imageExtensions = ['webp', 'png', 'jpg', 'jpeg'];
-                $lifeGallery = [];
+            $imageExtensions = ['webp', 'png', 'jpg', 'jpeg'];
+            $lifeGallery = [];
 
-                $activitiesDir = public_path('images/life/activities');
-                if (is_dir($activitiesDir)) {
-                    $files = array_diff(scandir($activitiesDir), ['.', '..']);
-                    sort($files);
+            $activitiesDir = public_path('images/life/activities');
+            if (is_dir($activitiesDir)) {
+                $files = array_diff(scandir($activitiesDir), ['.', '..']);
+                sort($files);
 
-                    foreach ($files as $file) {
-                        $extension = strtolower(pathinfo($file, PATHINFO_EXTENSION));
+                foreach ($files as $file) {
+                    $extension = strtolower(pathinfo($file, PATHINFO_EXTENSION));
 
-                        if (!in_array($extension, $imageExtensions, true)) {
-                            continue;
-                        }
-
-                        $name = pathinfo($file, PATHINFO_FILENAME);
-                        $lifeGallery[] = [
-                            'src' => 'images/life/activities/' . $file,
-                            'alt' => ucwords(str_replace(['-', '_'], ' ', $name)),
-                        ];
+                    if (!in_array($extension, $imageExtensions, true)) {
+                        continue;
                     }
-                }
 
-                if (count($lifeGallery) < 7) {
-                    $lifeFallbacks = [
-                        ['images/news/campus-life.jpg', 'Students at campus sports event'],
-                        ['images/news/featured.jpg', 'Cultural dance performance'],
-                        ['images/news/alumni.jpg', 'Guest lecture and presentation'],
-                        ['images/hero/leadership-card.jpg', 'Student life at Sona College'],
-                        ['images/news/research.jpg', 'Student council office bearers'],
-                        ['images/hero/hero-bg.jpg', 'Student presenting at podium'],
-                        ['images/research/materials.jpg', 'Campus auditorium audience'],
-                    ];
-
-                    foreach ($lifeFallbacks as [$src, $alt]) {
-                        if (count($lifeGallery) >= 7) {
-                            break;
-                        }
-
-                        $lifeGallery[] = ['src' => $src, 'alt' => $alt];
-                    }
-                }
-
-                $lifeGallery = array_slice($lifeGallery, 0, 7);
-
-                $lifeCampus = [];
-                $campusDir = public_path('images/life/campus');
-
-                if (is_dir($campusDir)) {
-                    $campusFiles = array_diff(scandir($campusDir), ['.', '..']);
-                    sort($campusFiles);
-
-                    foreach ($campusFiles as $file) {
-                        $extension = strtolower(pathinfo($file, PATHINFO_EXTENSION));
-
-                        if (!in_array($extension, $imageExtensions, true)) {
-                            continue;
-                        }
-
-                        $name = pathinfo($file, PATHINFO_FILENAME);
-                        $lifeCampus[] = [
-                            'src' => 'images/life/campus/' . $file,
-                            'caption' => ucwords(str_replace(['-', '_'], ' ', $name)),
-                        ];
-                    }
-                }
-
-                if (empty($lifeCampus)) {
-                    $lifeCampus = [
-                        ['src' => 'images/hero/hero-bg.jpg', 'caption' => 'Main Campus'],
-                        ['src' => 'images/news/campus-life.jpg', 'caption' => 'Student Life'],
-                        ['src' => 'images/hero/leadership-card.jpg', 'caption' => 'Innovation Lab'],
-                        ['src' => 'images/news/featured.jpg', 'caption' => 'Academic Block'],
-                        ['src' => 'images/research/materials.jpg', 'caption' => 'Research Centre'],
-                        ['src' => 'images/news/alumni.jpg', 'caption' => 'Events & Activities'],
+                    $name = pathinfo($file, PATHINFO_FILENAME);
+                    $lifeGallery[] = [
+                        'src' => 'images/life/activities/' . $file,
+                        'alt' => ucwords(str_replace(['-', '_'], ' ', $name)),
                     ];
                 }
-            @endphp
+            }
+
+            if (count($lifeGallery) < 7) {
+                $lifeFallbacks = [
+                    ['images/news/campus-life.jpg', 'Students at campus sports event'],
+                    ['images/news/featured.jpg', 'Cultural dance performance'],
+                    ['images/news/alumni.jpg', 'Guest lecture and presentation'],
+                    ['images/hero/leadership-card.jpg', 'Student life at Sona College'],
+                    ['images/news/research.jpg', 'Student council office bearers'],
+                    ['images/hero/hero-bg.jpg', 'Student presenting at podium'],
+                    ['images/research/materials.jpg', 'Campus auditorium audience'],
+                ];
+
+                foreach ($lifeFallbacks as [$src, $alt]) {
+                    if (count($lifeGallery) >= 7) {
+                        break;
+                    }
+
+                    $lifeGallery[] = ['src' => $src, 'alt' => $alt];
+                }
+            }
+
+            $lifeGallery = array_slice($lifeGallery, 0, 7);
+
+            $lifeCampus = [];
+            $campusDir = public_path('images/life/campus');
+
+            if (is_dir($campusDir)) {
+                $campusFiles = array_diff(scandir($campusDir), ['.', '..']);
+                sort($campusFiles);
+
+                foreach ($campusFiles as $file) {
+                    $extension = strtolower(pathinfo($file, PATHINFO_EXTENSION));
+
+                    if (!in_array($extension, $imageExtensions, true)) {
+                        continue;
+                    }
+
+                    $name = pathinfo($file, PATHINFO_FILENAME);
+                    $lifeCampus[] = [
+                        'src' => 'images/life/campus/' . $file,
+                        'caption' => ucwords(str_replace(['-', '_'], ' ', $name)),
+                    ];
+                }
+            }
+
+            if (empty($lifeCampus)) {
+                $lifeCampus = [
+                    ['src' => 'images/hero/hero-bg.jpg', 'caption' => 'Main Campus'],
+                    ['src' => 'images/news/campus-life.jpg', 'caption' => 'Student Life'],
+                    ['src' => 'images/hero/leadership-card.jpg', 'caption' => 'Innovation Lab'],
+                    ['src' => 'images/news/featured.jpg', 'caption' => 'Academic Block'],
+                    ['src' => 'images/research/materials.jpg', 'caption' => 'Research Centre'],
+                    ['src' => 'images/news/alumni.jpg', 'caption' => 'Events & Activities'],
+                ];
+            }
+        @endphp
 
         <div class="life-sona__gallery-wrap">
             <div class="life-sona__gallery" aria-label="Campus life photo collage">
@@ -738,8 +1027,8 @@
                         </div>
                         <p class="rankings__card-label">
                             <span class="rankings__check" aria-hidden="true">
-                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                    stroke-width="3">
+                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none"
+                                    stroke="currentColor" stroke-width="3">
                                     <path d="M5 13l4 4L19 7" />
                                 </svg>
                             </span>
@@ -758,7 +1047,8 @@
                     <h2 class="section__title" id="alumni-title">Notable Alumni</h2>
                 </div>
                 <p class="section__lead section__lead--spaced">
-                    Sona graduates lead innovation across technology, manufacturing, entrepreneurship, and global enterprises.
+                    Sona graduates lead innovation across technology, manufacturing, entrepreneurship, and global
+                    enterprises.
                 </p>
             </header>
 
@@ -888,6 +1178,120 @@
 @push('scripts')
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+            var heroCarousel = document.querySelector('[data-hero-carousel]');
+            if (heroCarousel) {
+                var slides = Array.prototype.slice.call(heroCarousel.querySelectorAll('.hero__carousel-slide'));
+                var dots = Array.prototype.slice.call(heroCarousel.querySelectorAll('.hero__carousel-dot'));
+                var prevBtn = heroCarousel.querySelector('.hero__carousel-arrow--prev');
+                var nextBtn = heroCarousel.querySelector('.hero__carousel-arrow--next');
+                var current = 0;
+                var timer = null;
+                var delay = 5000;
+                var isPaused = false;
+
+                function applyHeroSlide(index) {
+                    current = index;
+
+                    slides.forEach(function(slide, i) {
+                        var isActive = i === current;
+                        slide.classList.toggle('is-active', isActive);
+                        slide.setAttribute('aria-hidden', isActive ? 'false' : 'true');
+                    });
+
+                    dots.forEach(function(dot, i) {
+                        var isActive = i === current;
+                        dot.classList.toggle('is-active', isActive);
+                        dot.setAttribute('aria-selected', isActive ? 'true' : 'false');
+                    });
+
+                    var activeSlide = slides[current];
+                    var viewport = heroCarousel.querySelector('.hero__carousel-viewport');
+                    if (viewport && activeSlide) {
+                        var orientation = activeSlide.getAttribute('data-hero-orientation') || 'landscape';
+                        viewport.classList.toggle('is-portrait-active', orientation === 'portrait');
+                        viewport.classList.toggle('is-landscape-active', orientation === 'landscape');
+                    }
+                }
+
+                if (slides.length > 0) {
+                    applyHeroSlide(0);
+                }
+
+                if (slides.length > 1) {
+                    function goTo(index) {
+                        applyHeroSlide(index);
+                    }
+
+                    function next() {
+                        goTo((current + 1) % slides.length);
+                    }
+
+                    function prev() {
+                        goTo((current - 1 + slides.length) % slides.length);
+                    }
+
+                    function stopAutoplay() {
+                        if (timer) {
+                            window.clearTimeout(timer);
+                            timer = null;
+                        }
+                    }
+
+                    function scheduleAutoplay() {
+                        stopAutoplay();
+                        if (isPaused) {
+                            return;
+                        }
+
+                        timer = window.setTimeout(function() {
+                            next();
+                            scheduleAutoplay();
+                        }, delay);
+                    }
+
+                    dots.forEach(function(dot, index) {
+                        dot.addEventListener('click', function() {
+                            goTo(index);
+                            scheduleAutoplay();
+                        });
+                    });
+
+                    if (prevBtn) {
+                        prevBtn.addEventListener('click', function() {
+                            prev();
+                            scheduleAutoplay();
+                        });
+                    }
+
+                    if (nextBtn) {
+                        nextBtn.addEventListener('click', function() {
+                            next();
+                            scheduleAutoplay();
+                        });
+                    }
+
+                    heroCarousel.addEventListener('mouseenter', function() {
+                        isPaused = true;
+                        stopAutoplay();
+                    });
+
+                    heroCarousel.addEventListener('mouseleave', function() {
+                        isPaused = false;
+                        scheduleAutoplay();
+                    });
+
+                    document.addEventListener('visibilitychange', function() {
+                        if (document.hidden) {
+                            stopAutoplay();
+                        } else if (!isPaused) {
+                            scheduleAutoplay();
+                        }
+                    });
+
+                    scheduleAutoplay();
+                }
+            }
+
             var heroBackground = document.querySelector('.hero__background');
             var heroVideo = document.querySelector('.hero__video');
 

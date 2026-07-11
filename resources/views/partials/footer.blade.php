@@ -1,5 +1,11 @@
-<footer class="site-footer">
-    <div class="site-footer__inner">
+<div class="site-footer-wrap">
+    <svg class="site-footer__divider" viewBox="0 0 1440 64" preserveAspectRatio="none" aria-hidden="true">
+        <path
+            d="M0,32 C180,8 360,56 540,28 C720,0 900,48 1080,24 C1260,0 1380,40 1440,28 L1440,64 L0,64 Z" />
+    </svg>
+
+    <footer class="site-footer">
+        <div class="site-footer__inner">
         <div class="site-footer__grid">
             <div class="site-footer__col">
                 <h3 class="site-footer__heading">Admissions</h3>
@@ -135,3 +141,4 @@
         </p>
     </div>
 </footer>
+</div>
