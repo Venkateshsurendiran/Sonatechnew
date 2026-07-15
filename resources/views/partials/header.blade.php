@@ -83,7 +83,7 @@
             <nav id="hero-primary-nav" class="hero-nav" aria-label="Primary">
                 <ul class="hero-nav__list">
                     <li><a href="{{ url('/') }}" class="{{ request()->is('/') ? 'is-active' : '' }}">Home</a></li>
-                    <li class="hero-nav__item hero-nav__item--dropdown">
+                    <li class="hero-nav__item hero-nav__item--dropdown{{ request()->is('about') || request()->is('about/*') ? ' is-current' : '' }}">
                         <button type="button" class="hero-nav__trigger" aria-expanded="false"
                             aria-controls="about-dropdown">
                             About Us <span class="hero-nav__chevron" aria-hidden="true">▾</span>

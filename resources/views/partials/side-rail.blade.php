@@ -1,11 +1,11 @@
-<aside class="side-rail" id="side-rail" aria-label="Quick admission links">
+<aside class="side-rail is-collapsed" id="side-rail" aria-label="Quick admission links">
     {{-- Collapsed: vertical tab only --}}
-    <button type="button" class="side-rail__tab" id="side-rail-open" aria-label="Open admission panel" hidden>
+    <button type="button" class="side-rail__tab" id="side-rail-open" aria-label="Open admission panel">
         <span class="side-rail__tab-label">Admission 2026</span>
     </button>
 
     {{-- Open: compact panel flush to right edge --}}
-    <div class="side-rail__panel" id="side-rail-panel">
+    <div class="side-rail__panel" id="side-rail-panel" hidden>
         <div class="side-rail__bar side-rail__bar--head">
             <span class="side-rail__bar-text">Admission 2026</span>
             <button type="button" class="side-rail__close" id="side-rail-close" aria-label="Close">
@@ -96,8 +96,10 @@
         }
 
         try {
-            if (sessionStorage.getItem(key) === '1') collapse(true);
-        } catch (e) {}
+            collapse(sessionStorage.getItem(key) !== '0');
+        } catch (e) {
+            collapse(true);
+        }
 
         closeBtn.addEventListener('click', function() {
             shutSubs();

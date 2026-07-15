@@ -455,280 +455,199 @@
         </div>
     </section>
 
-    <section class="section section--white campus-news " id="news" aria-labelledby="campus-news-title">
+    <section class="section section--muted campus-news" id="news" aria-labelledby="campus-news-title">
         <div class="container">
-            <div class="campus-news__header">
-                <div class="campus-news__heading">
-                    <div class="accent-line">
-                        <h2 class="section__title" id="campus-news-title">Campus News and Events</h2>
-                    </div>
-                </div>
-
-                <div class="campus-news__filters">
-                    <div class="campus-news__filter">
-                        <label for="campus-news-type" class="campus-news__filter-label">Type</label>
-                        <select id="campus-news-type" class="campus-news__filter-select" data-news-type-filter>
-                            <option value="all">All</option>
-                            <option value="news">News</option>
-                            <option value="events">Events</option>
-                        </select>
-                    </div>
-                    <div class="campus-news__filter">
-                        <label for="campus-news-category" class="campus-news__filter-label">Category</label>
-                        <select id="campus-news-category" class="campus-news__filter-select" data-news-category-filter>
-                            <option value="all">All Categories</option>
-                            <option value="career">Career</option>
-                            <option value="campus-life">Campus Life</option>
-                            <option value="research">Research</option>
-                            <option value="alumni">Alumni</option>
-                        </select>
-                    </div>
-                </div>
-            </div>
-
             @php
                 $campusNewsItems = [
                     [
-                        'badge' => 'Career',
-                        'category' => 'career',
                         'type' => 'news',
-                        'title' => 'How to Craft a Resume That Stands Out',
-                        'excerpt' =>
-                            'Learn how to highlight your skills, projects, and achievements so recruiters notice your application in competitive campus placement drives.',
-                        'image' => 'images/news/featured.jpg',
-                        'alt' => 'Students collaborating on career preparation',
-                        'url' => '#',
-                    ],
-                    [
-                        'badge' => 'Campus Life',
-                        'category' => 'campus-life',
-                        'type' => 'events',
-                        'title' => 'Making the Most of Campus Life',
-                        'excerpt' =>
-                            'Discover clubs, events, and student communities that shape your Sona experience and help you grow beyond the classroom.',
-                        'image' => 'images/news/campus-life.jpg',
-                        'alt' => 'Students in the library',
-                        'url' => '#',
-                    ],
-                    [
-                        'badge' => 'Research',
-                        'category' => 'research',
-                        'type' => 'news',
-                        'title' => 'Research Team Unveils Breakthrough in Renewable Energy',
-                        'excerpt' =>
-                            'Sona researchers advance sustainable energy solutions with industry-ready prototypes and collaborative lab innovation.',
+                        'label' => 'Featured News',
+                        'day' => '10',
+                        'month' => 'MAY',
+                        'title' => 'Sona Institutions Launches Centre for Sustainable Energy Research',
                         'image' => 'images/news/research.jpg',
-                        'alt' => 'Solar panel research',
+                        'alt' => 'Sustainable energy research at Sona',
                         'url' => '#',
                     ],
                     [
-                        'badge' => 'Alumni',
-                        'category' => 'alumni',
                         'type' => 'events',
-                        'title' => 'How Our Alumni Are Changing the World',
-                        'excerpt' =>
-                            'Graduates lead innovation across engineering, business, and social impact around the globe with Sona roots.',
+                        'label' => 'Event',
+                        'day' => '08',
+                        'month' => 'MAY',
+                        'title' => 'AI & Robotics Workshop Series 2027 in Association with Industry Experts',
+                        'image' => 'images/news/featured.jpg',
+                        'alt' => 'AI and robotics workshop',
+                        'url' => '#',
+                    ],
+                    [
+                        'type' => 'achievements',
+                        'label' => 'Achievement',
+                        'day' => '05',
+                        'month' => 'MAY',
+                        'title' => 'Sona Students Win National Level Hackathon Championship',
+                        'image' => 'images/news/campus-life.jpg',
+                        'alt' => 'Students celebrating campus achievement',
+                        'url' => '#',
+                    ],
+                    [
+                        'type' => 'events',
+                        'label' => 'Event',
+                        'day' => '02',
+                        'month' => 'MAY',
+                        'title' => 'International Conference on Emerging Technologies in Engineering',
                         'image' => 'images/news/alumni.jpg',
-                        'alt' => 'Alumni networking event',
+                        'alt' => 'International conference at Sona',
                         'url' => '#',
                     ],
                 ];
+
+                $featuredNews = $campusNewsItems[0];
             @endphp
 
-            <div class="campus-news__slider" data-campus-news-slider>
-                <div class="campus-news__stage">
-                    <div class="campus-news__nav" aria-label="News slider controls">
-                        <button type="button" class="campus-news__arrow campus-news__arrow--prev"
-                            aria-label="Previous news">
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                stroke-width="2" aria-hidden="true">
-                                <path d="M15 18l-6-6 6-6" />
-                            </svg>
-                        </button>
-                        <button type="button" class="campus-news__arrow campus-news__arrow--next"
-                            aria-label="Next news">
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                stroke-width="2" aria-hidden="true">
-                                <path d="M9 18l6-6-6-6" />
-                            </svg>
-                        </button>
-                    </div>
+            <div class="campus-news__header">
+                <h2 class="campus-news__title" id="campus-news-title">News &amp; Events</h2>
 
-                    <div class="campus-news__slides" aria-live="polite">
-                        @foreach ($campusNewsItems as $index => $item)
-                            <article
-                                class="campus-news__slide campus-news__featured{{ $index === 0 ? ' is-active' : '' }}"
-                                id="campus-news-slide-{{ $index }}" data-slide="{{ $index }}"
-                                data-news-type="{{ $item['type'] }}" data-news-category="{{ $item['category'] }}"
-                                @if ($index !== 0) hidden @endif>
-                                <a href="{{ $item['url'] }}" class="campus-news__featured-media">
-                                    <img src="{{ asset($item['image']) }}" alt="{{ $item['alt'] }}" width="720"
-                                        height="480" loading="{{ $index === 0 ? 'eager' : 'lazy' }}">
-                                </a>
-                                <div class="campus-news__featured-body">
-                                    <span class="campus-news__badge">{{ $item['badge'] }}</span>
-                                    <h3 class="campus-news__featured-title">
-                                        <a href="{{ $item['url'] }}">{{ $item['title'] }}</a>
-                                    </h3>
-                                    <p class="campus-news__excerpt">{{ $item['excerpt'] }}</p>
-                                    <a href="{{ $item['url'] }}" class="campus-news__read-more">
-                                        Read More
-                                        <span class="campus-news__read-more-icon" aria-hidden="true">
-                                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
-                                                stroke="currentColor" stroke-width="2">
-                                                <path d="M5 12h14M13 6l6 6-6 6" />
-                                            </svg>
-                                        </span>
-                                    </a>
-                                </div>
-                            </article>
-                        @endforeach
-                    </div>
+                <div class="campus-news__filters" role="group" aria-label="Filter news and events">
+                    <button type="button" class="campus-news__filter-btn is-active" data-news-filter="all">All</button>
+                    <button type="button" class="campus-news__filter-btn" data-news-filter="news">News</button>
+                    <button type="button" class="campus-news__filter-btn" data-news-filter="events">Events</button>
+                    <button type="button" class="campus-news__filter-btn"
+                        data-news-filter="achievements">Achievements</button>
                 </div>
+            </div>
 
-                <div class="campus-news__thumbs" role="tablist" aria-label="Choose news story">
+            <div class="campus-news__layout" data-campus-news-panel>
+                <article class="campus-news__featured" data-news-featured data-news-type="{{ $featuredNews['type'] }}">
+                    <a href="{{ $featuredNews['url'] }}" class="campus-news__featured-media">
+                        <img src="{{ asset($featuredNews['image']) }}" alt="{{ $featuredNews['alt'] }}" width="720"
+                            height="420" loading="eager" decoding="async" data-news-featured-image>
+                    </a>
+
+                    <div class="campus-news__featured-body">
+                        <div class="campus-news__date campus-news__date--featured" aria-hidden="true">
+                            <span class="campus-news__date-day" data-news-featured-day>{{ $featuredNews['day'] }}</span>
+                            <span class="campus-news__date-month"
+                                data-news-featured-month>{{ $featuredNews['month'] }}</span>
+                        </div>
+
+                        <div class="campus-news__featured-copy">
+                            <span class="campus-news__featured-label"
+                                data-news-featured-label>{{ $featuredNews['label'] }}</span>
+                            <h3 class="campus-news__featured-title">
+                                <a href="{{ $featuredNews['url'] }}"
+                                    data-news-featured-title>{{ $featuredNews['title'] }}</a>
+                            </h3>
+                            <a href="{{ $featuredNews['url'] }}" class="campus-news__read-more" data-news-featured-link>
+                                Read More
+                                <span aria-hidden="true">&rarr;</span>
+                            </a>
+                        </div>
+                    </div>
+                </article>
+
+                <div class="campus-news__list" role="list">
                     @foreach ($campusNewsItems as $index => $item)
-                        <button type="button" class="campus-news__thumb{{ $index === 0 ? ' is-active' : '' }}"
-                            data-slide-to="{{ $index }}" data-news-type="{{ $item['type'] }}"
-                            data-news-category="{{ $item['category'] }}" role="tab"
-                            aria-selected="{{ $index === 0 ? 'true' : 'false' }}"
-                            aria-controls="campus-news-slide-{{ $index }}">
-                            <span class="campus-news__thumb-media">
-                                <img src="{{ asset($item['image']) }}" alt="" width="96" height="96"
-                                    loading="lazy">
+                        <a href="{{ $item['url'] }}" class="campus-news__item{{ $index === 0 ? ' is-active' : '' }}"
+                            role="listitem" data-news-item data-news-type="{{ $item['type'] }}"
+                            data-news-day="{{ $item['day'] }}" data-news-month="{{ $item['month'] }}"
+                            data-news-label="{{ $item['label'] }}" data-news-title="{{ $item['title'] }}"
+                            data-news-image="{{ asset($item['image']) }}" data-news-alt="{{ $item['alt'] }}"
+                            data-news-url="{{ $item['url'] }}">
+                            <span class="campus-news__date campus-news__date--list">
+                                <span class="campus-news__date-day">{{ $item['day'] }}</span>
+                                <span class="campus-news__date-month">{{ $item['month'] }}</span>
                             </span>
-                            <span class="campus-news__thumb-body">
-                                <span class="campus-news__thumb-title">{{ $item['title'] }}</span>
-                                <span
-                                    class="campus-news__thumb-excerpt">{{ \Illuminate\Support\Str::limit($item['excerpt'], 72) }}</span>
+                            <span class="campus-news__item-title">{{ $item['title'] }}</span>
+                            <span class="campus-news__item-arrow" aria-hidden="true">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+                                    stroke="currentColor" stroke-width="2">
+                                    <path d="M5 12h14M13 6l6 6-6 6" />
+                                </svg>
                             </span>
-                        </button>
+                        </a>
                     @endforeach
                 </div>
             </div>
 
             <div class="campus-news__footer">
                 <a href="{{ url('/news-events') }}" class="campus-news__view-all">
-                    View all News and Events
-                    <span class="campus-news__view-all-icon" aria-hidden="true">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                            stroke-width="2">
-                            <path d="M5 12h14M13 6l6 6-6 6" />
-                        </svg>
-                    </span>
+                    View All News &amp; Events
                 </a>
             </div>
         </div>
     </section>
-    <section class="rankings-about" id="about" aria-labelledby="rankings-about-title">
-        <figure class="rankings-about__scene" aria-hidden="true" style="background-image: url('{{ asset('images/slide.webp') }}'); background-attachment: fixed; background-size: cover; background-position: center;">
-            <img src="{{ asset('images/slide.webp') }}" alt="" loading="lazy" decoding="async" style="display: none;">
-        </figure>
-        <div class="rankings-about__overlay" aria-hidden="true"></div>
 
-        <div class="container rankings-about__inner">
-            <div class="rankings-about__top">
-                <div class="rankings-about__headline">
 
-                    <h2 class="rankings-about__title" id="rankings-about-title">
-                        Empowering Engineers to Lead the Future
-                    </h2>
-                </div>
+    @php
+        $researchCollagePrimary = file_exists(public_path('images/research/research-bg.webp'))
+            ? 'images/research/research-bg.webp'
+            : 'images/news/research.jpg';
 
-                <div class="rankings-about__spacer" aria-hidden="true"></div>
+        $researchCollageSecondary = file_exists(public_path('images/research/research-bg-1.webp'))
+            ? 'images/research/research-bg-1.webp'
+            : $researchCollagePrimary;
+    @endphp
 
-                <div class="rankings-about__aside">
-                    <p class="rankings-about__text">
-                        Established in 1999, Sona College of Technology is spread across a vibrant campus in Salem and is
-                        one of the leading autonomous engineering institutions in Tamil Nadu, offering B.E., M.Tech, MBA,
-                        and MCA programs with industry-linked learning.
-                    </p>
-                    <a href="{{ url('/about') }}" class="rankings-about__link">
-                        Explore Our Programs
-                        <span aria-hidden="true">&rarr;</span>
-                    </a>
-                </div>
+    @php
+        $researchAttrs = [
+            [
+                'title' => '36+ Research & Centres of Excellence',
+                'text' =>
+                    'Interdisciplinary research centres across engineering, materials, aerospace, and computing foster an innovation culture where students and faculty collaborate on mission-ready solutions.',
+                'url' => url('/research/centres'),
+            ],
+            [
+                'title' => 'ISRO Collaboration',
+                'text' =>
+                    'Sona SPEED contributed to ISRO’s reusable launch vehicle landing experiment, reflecting hands-on innovation in autonomous aerospace systems and mission-critical engineering.',
+                'url' => url('/research/isro-rlv-lex'),
+            ],
+            [
+                'title' => 'Chandrayaan-3 & Advanced Materials',
+                'text' =>
+                    'Indigenous motor technology and breakthrough polymer research strengthen Sona’s footprint in national space programs and next-generation launch systems.',
+                'url' => url('/research/chandrayaan-3'),
+            ],
+        ];
+    @endphp
+
+    <section class="section section--white research research--attrs" id="research" aria-labelledby="research-title">
+        <div class="container research__layout">
+            <div class="research__media" aria-hidden="true">
+                <span class="research__dots"></span>
+                <span class="research__ring"></span>
+                <figure class="research__photo research__photo--primary">
+                    <img src="{{ asset($researchCollagePrimary) }}" alt="Sona research laboratory"
+                        width="640" height="800" loading="lazy" decoding="async">
+                </figure>
+                <figure class="research__photo research__photo--secondary">
+                    <img src="{{ asset($researchCollageSecondary) }}" alt="Sona research collaboration"
+                        width="520" height="650" loading="lazy" decoding="async">
+                </figure>
             </div>
-        </div>
-    </section>
 
-    <section class="section section--muted research" id="research" aria-labelledby="research-title">
-        <div class="container research__inner">
-            <header class="section__header section__header--center research__header">
-                <div class="accent-line">
-                    <h2 class="section__title" id="research-title">Explore Our Research</h2>
+            <div class="research__copy">
+                <p class="research__eyebrow">From Curiosity to Contribution</p>
+                <h2 class="research__title" id="research-title">Explore Our Research</h2>
+
+                <div class="research__attrs">
+                    @foreach ($researchAttrs as $index => $item)
+                        <article class="research__attr research__attr--{{ $index + 1 }}">
+                            <span class="research__attr-icon" aria-hidden="true">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none"
+                                    stroke="currentColor" stroke-width="3">
+                                    <path d="M20 6L9 17l-5-5" />
+                                </svg>
+                            </span>
+                            <div class="research__attr-body">
+                                <h3 class="research__attr-title">
+                                    <a href="{{ $item['url'] }}">{{ $item['title'] }}</a>
+                                </h3>
+                                <p class="research__attr-text">{{ $item['text'] }}</p>
+                            </div>
+                        </article>
+                    @endforeach
                 </div>
-                <p class="section__lead research__intro">
-                    Sona College of Technology nurtures a vibrant research ecosystem where faculty and students
-                    transform ideas into impactful solutions through interdisciplinary innovation, industry
-                    collaboration, and mission-driven engineering.
-                </p>
-            </header>
-
-            <div class="research__grid">
-                <article class="research__panel">
-                    <div class="research__panel-accent" aria-hidden="true"></div>
-                    <div class="research__panel-content">
-                        <h3 class="research__panel-title">36+ Research &amp; Centres of Excellence</h3>
-                        <p class="research__panel-text">
-                            Interdisciplinary research centres across engineering, materials, aerospace, and
-                            computing foster an innovation culture where students and faculty collaborate on
-                            mission-ready solutions.
-                        </p>
-                        <a href="{{ url('/research/centres') }}" class="research__panel-link">
-                            Explore research centres
-                            <span aria-hidden="true">&rarr;</span>
-                        </a>
-                    </div>
-                </article>
-
-                <article class="research__panel">
-                    <div class="research__panel-accent" aria-hidden="true"></div>
-                    <div class="research__panel-content">
-                        <h3 class="research__panel-title">ISRO Collaboration</h3>
-                        <p class="research__panel-text">
-                            Sona SPEED played a role in ISRO&rsquo;s reusable launch vehicle landing experiment,
-                            reflecting hands-on innovation in autonomous aerospace systems and mission-critical
-                            engineering contributions.
-                        </p>
-                        <a href="{{ url('/research/isro-rlv-lex') }}" class="research__panel-link">
-                            Learn more
-                            <span aria-hidden="true">&rarr;</span>
-                        </a>
-                    </div>
-                </article>
-
-                <article class="research__panel">
-                    <div class="research__panel-accent" aria-hidden="true"></div>
-                    <div class="research__panel-content">
-                        <h3 class="research__panel-title">Chandrayaan-3</h3>
-                        <p class="research__panel-text">
-                            Critical motor systems engineered at Sona supported ISRO&rsquo;s Chandrayaan-3 mission
-                            through Sona SPEED indigenous motor technology, showcasing precision engineering for
-                            national space programs.
-                        </p>
-                        <a href="{{ url('/research/chandrayaan-3') }}" class="research__panel-link">
-                            Learn more
-                            <span aria-hidden="true">&rarr;</span>
-                        </a>
-                    </div>
-                </article>
-
-                <article class="research__panel">
-                    <div class="research__panel-accent" aria-hidden="true"></div>
-                    <div class="research__panel-content">
-                        <h3 class="research__panel-title">Materials Science &amp; Launch Vehicle</h3>
-                        <p class="research__panel-text">
-                            Breakthrough work in third-generation organic polymers and stepper motor technology for
-                            the LVM3-M5 CMS-03 mission strengthens Sona&rsquo;s footprint in advanced materials and
-                            launch systems.
-                        </p>
-                        <a href="{{ url('/research') }}" class="research__panel-link">
-                            Discover the impact
-                            <span aria-hidden="true">&rarr;</span>
-                        </a>
-                    </div>
-                </article>
             </div>
         </div>
     </section>
@@ -802,136 +721,228 @@
             </div>
         </div>
     </section>
+    @php
+        $programsBannerBg =
+            collect(['images/slide.webp'])->first(fn($path) => file_exists(public_path($path))) ??
+            'images/hero/hero-bg.jpg';
 
-    <section class="section section--muted life-sona" id="life" aria-labelledby="life-sona-title">
-        <div class="container">
-            <header class="section__header section__header--center">
-                <div class="accent-line">
-                    <h2 class="section__title" id="life-sona-title">Life @ Sona</h2>
-                </div>
-            </header>
+        $programCards = [
+            [
+                'title' => 'Engineering & Technology',
+                'text' => 'Future focused programs',
+                'url' => url('/admissions/courses-offered'),
+                'icon' => 'gear',
+            ],
+            [
+                'title' => 'Management & Business',
+                'text' => 'Leadership & Innovation',
+                'url' => url('/admissions/courses-offered'),
+                'icon' => 'briefcase',
+            ],
+            [
+                'title' => 'Science & Humanities',
+                'text' => 'Explore. Analyze. Excel.',
+                'url' => url('/admissions/courses-offered'),
+                'icon' => 'book',
+            ],
+            [
+                'title' => 'Research & Innovation',
+                'text' => 'Create. Discover. Transform.',
+                'url' => url('/research/areas-of-research'),
+                'icon' => 'flask',
+            ],
+        ];
+    @endphp
+
+    <section class="programs-banner" id="about" aria-labelledby="programs-banner-title"
+        style="--programs-banner-bg: url('{{ asset($programsBannerBg) }}');">
+        <div class="programs-banner__overlay" aria-hidden="true"></div>
+
+        <div class="container programs-banner__inner">
+            <div class="programs-banner__copy">
+                <h2 class="programs-banner__title" id="programs-banner-title">
+                    Empowering Engineers to Lead the Future
+                </h2>
+                <p class="programs-banner__lead">Choose. Learn. Innovate. Lead.</p>
+                <a href="{{ url('/admissions/courses-offered') }}" class="programs-banner__cta">
+                    Explore All Programs
+                </a>
+            </div>
+
+            <div class="programs-banner__cards">
+                @foreach ($programCards as $card)
+                    <a href="{{ $card['url'] }}" class="programs-banner__card">
+                        <span class="programs-banner__card-icon" aria-hidden="true">
+                            @if ($card['icon'] === 'gear')
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none"
+                                    stroke="currentColor" stroke-width="1.8">
+                                    <circle cx="12" cy="12" r="3" />
+                                    <path
+                                        d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4" />
+                                </svg>
+                            @elseif ($card['icon'] === 'briefcase')
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none"
+                                    stroke="currentColor" stroke-width="1.8">
+                                    <rect x="3" y="7" width="18" height="13" rx="2" />
+                                    <path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M3 13h18" />
+                                </svg>
+                            @elseif ($card['icon'] === 'book')
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none"
+                                    stroke="currentColor" stroke-width="1.8">
+                                    <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
+                                    <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" />
+                                </svg>
+                            @else
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none"
+                                    stroke="currentColor" stroke-width="1.8">
+                                    <path d="M9 3h6v5a3 3 0 0 1-6 0V3z" />
+                                    <path d="M10 13a4 4 0 0 0-4 4v2h12v-2a4 4 0 0 0-4-4h-4z" />
+                                    <path d="M8 21h8" />
+                                </svg>
+                            @endif
+                        </span>
+                        <span class="programs-banner__card-copy">
+                            <span class="programs-banner__card-title">{{ $card['title'] }}</span>
+                            <span class="programs-banner__card-text">{{ $card['text'] }}</span>
+                        </span>
+                    </a>
+                @endforeach
+            </div>
         </div>
+    </section>
 
+    <section class="section section--white life-sona" id="life" aria-labelledby="life-sona-title">
         @php
-            $imageExtensions = ['webp', 'png', 'jpg', 'jpeg'];
-            $lifeGallery = [];
+            $lifeCategories = [
+                [
+                    'icon' => '🎉',
+                    'label' => 'Events & Celebrations',
+                    'text' =>
+                        'National and international conferences, symposiums, annual fests, and campus celebrations.',
+                    'src' => 'images/news/featured.jpg',
+                ],
+                [
+                    'icon' => '🎭',
+                    'label' => 'Arts & Culture',
+                    'text' => 'Music, dance, theatre, fine arts, and cultural festivals.',
+                    'src' => 'images/news/alumni.jpg',
+                ],
+                [
+                    'icon' => '📚',
+                    'label' => 'Central Library',
+                    'text' => 'Modern learning spaces, digital resources, journals, and research collections.',
+                    'src' => 'images/slide-1.webp',
+                ],
+                [
+                    'icon' => '🏆',
+                    'label' => 'Sports & Fitness',
+                    'text' => 'Indoor & outdoor sports, gymnasium, athletics, yoga, and wellness.',
+                    'src' => 'images/news/campus-life.jpg',
+                ],
 
-            $activitiesDir = public_path('images/life/activities');
-            if (is_dir($activitiesDir)) {
-                $files = array_diff(scandir($activitiesDir), ['.', '..']);
-                sort($files);
+                [
+                    'icon' => '👨‍🎓',
+                    'label' => 'Student Clubs & Communities',
+                    'text' => 'Technical clubs, coding, photography, literature, robotics, and leadership clubs.',
+                    'src' => 'images/slide.webp',
+                ],
+                [
+                    'icon' => '🚀',
+                    'label' => 'Placements & Career Development',
+                    'text' => 'Career guidance, internships, placement training, and recruiter interactions.',
+                    'src' => 'images/hero/leadership-card.jpg',
+                ],
+                [
+                    'icon' => '🌍',
+                    'label' => 'Global Opportunities',
+                    'text' => 'International collaborations, MoUs, exchange programmes, and global exposure.',
+                    'src' => 'images/slide-2.png',
+                ],
+                [
+                    'icon' => '🏡',
+                    'label' => 'Campus Living',
+                    'text' => 'Hostels, cafeteria, medical centre, transport, green campus, and student amenities.',
+                    'src' => 'images/hero/hero-bg.jpg',
+                ],
+                [
+                    'icon' => '🤝',
+                    'label' => 'Leadership & Social Responsibility',
+                    'text' =>
+                        'NSS, NCC, Youth Red Cross, community service, environmental initiatives, and leadership development.',
+                    'src' => 'images/about/management/sona-tower.jpg',
+                ],
+            ];
 
-                foreach ($files as $file) {
-                    $extension = strtolower(pathinfo($file, PATHINFO_EXTENSION));
+            $lifeFallbacks = [
+                'images/slide.webp',
+                'images/slide-1.webp',
+                'images/slide-2.png',
+                'images/slide-3.png',
+                'images/news/featured.jpg',
+                'images/news/campus-life.jpg',
+                'images/news/alumni.jpg',
+                'images/news/research.jpg',
+                'images/hero/hero-bg.jpg',
+                'images/hero/leadership-card.jpg',
+            ];
 
-                    if (!in_array($extension, $imageExtensions, true)) {
-                        continue;
-                    }
-
-                    $name = pathinfo($file, PATHINFO_FILENAME);
-                    $lifeGallery[] = [
-                        'src' => 'images/life/activities/' . $file,
-                        'alt' => ucwords(str_replace(['-', '_'], ' ', $name)),
-                    ];
+            $lifeSlides = [];
+            foreach ($lifeCategories as $index => $category) {
+                $src = $category['src'];
+                if (!file_exists(public_path($src))) {
+                    $src = $lifeFallbacks[$index % count($lifeFallbacks)];
                 }
-            }
 
-            if (count($lifeGallery) < 7) {
-                $lifeFallbacks = [
-                    ['images/news/campus-life.jpg', 'Students at campus sports event'],
-                    ['images/news/featured.jpg', 'Cultural dance performance'],
-                    ['images/news/alumni.jpg', 'Guest lecture and presentation'],
-                    ['images/hero/leadership-card.jpg', 'Student life at Sona College'],
-                    ['images/news/research.jpg', 'Student council office bearers'],
-                    ['images/hero/hero-bg.jpg', 'Student presenting at podium'],
-                    ['images/research/materials.jpg', 'Campus auditorium audience'],
-                ];
-
-                foreach ($lifeFallbacks as [$src, $alt]) {
-                    if (count($lifeGallery) >= 7) {
-                        break;
-                    }
-
-                    $lifeGallery[] = ['src' => $src, 'alt' => $alt];
-                }
-            }
-
-            $lifeGallery = array_slice($lifeGallery, 0, 7);
-
-            $lifeCampus = [];
-            $campusDir = public_path('images/life/campus');
-
-            if (is_dir($campusDir)) {
-                $campusFiles = array_diff(scandir($campusDir), ['.', '..']);
-                sort($campusFiles);
-
-                foreach ($campusFiles as $file) {
-                    $extension = strtolower(pathinfo($file, PATHINFO_EXTENSION));
-
-                    if (!in_array($extension, $imageExtensions, true)) {
-                        continue;
-                    }
-
-                    $name = pathinfo($file, PATHINFO_FILENAME);
-                    $lifeCampus[] = [
-                        'src' => 'images/life/campus/' . $file,
-                        'caption' => ucwords(str_replace(['-', '_'], ' ', $name)),
-                    ];
-                }
-            }
-
-            if (empty($lifeCampus)) {
-                $lifeCampus = [
-                    ['src' => 'images/hero/hero-bg.jpg', 'caption' => 'Main Campus'],
-                    ['src' => 'images/news/campus-life.jpg', 'caption' => 'Student Life'],
-                    ['src' => 'images/hero/leadership-card.jpg', 'caption' => 'Innovation Lab'],
-                    ['src' => 'images/news/featured.jpg', 'caption' => 'Academic Block'],
-                    ['src' => 'images/research/materials.jpg', 'caption' => 'Research Centre'],
-                    ['src' => 'images/news/alumni.jpg', 'caption' => 'Events & Activities'],
+                $lifeSlides[] = [
+                    'icon' => $category['icon'],
+                    'label' => $category['label'],
+                    'text' => $category['text'],
+                    'src' => $src,
                 ];
             }
         @endphp
 
-        <div class="life-sona__gallery-wrap">
-            <div class="life-sona__gallery" aria-label="Campus life photo collage">
-                @foreach ($lifeGallery as $index => $photo)
-                    <figure class="life-sona__tile life-sona__tile--{{ $index + 1 }}">
-                        <img src="{{ asset($photo['src']) }}" alt="{{ $photo['alt'] }}" loading="lazy"
-                            decoding="async">
-                    </figure>
-                @endforeach
+        <div class="container life-sona__top">
+            <div class="life-sona__intro">
+                <p class="life-sona__eyebrow">Empower Your Global Future!</p>
+                <h2 class="life-sona__title" id="life-sona-title">
+                    Life @ <span>Sona</span>
+                </h2>
+            </div>
+
+            <p class="life-sona__text">
+                From celebrations and culture to research, placements, and campus living —
+                discover every experience that shapes life at Sona.
+            </p>
+
+            <div class="life-sona__cta-wrap">
+                <a href="{{ url('/about/photo-gallery') }}" class="life-sona__cta">
+                    View Campus Life
+                    <span aria-hidden="true">&rarr;</span>
+                </a>
             </div>
         </div>
 
-        <div class="life-sona__campus-carousel life-sona__campus-carousel--full" data-life-campus-carousel>
-            <div class="life-sona__campus-nav" aria-label="Campus highlights controls">
-                <button type="button" class="life-sona__campus-arrow life-sona__campus-arrow--prev"
-                    aria-label="Previous campus highlight">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                        stroke-width="2" aria-hidden="true">
-                        <path d="M15 18l-6-6 6-6" />
-                    </svg>
-                </button>
-                <button type="button" class="life-sona__campus-arrow life-sona__campus-arrow--next"
-                    aria-label="Next campus highlight">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                        stroke-width="2" aria-hidden="true">
-                        <path d="M9 18l6-6-6-6" />
-                    </svg>
-                </button>
-            </div>
-
-            <div class="life-sona__campus-viewport">
-                <div class="life-sona__campus-track" data-life-campus-track>
-                    @foreach ($lifeCampus as $campus)
-                        <figure class="life-sona__campus-item">
-                            <img src="{{ asset($campus['src']) }}" alt="{{ $campus['caption'] }}" loading="lazy"
+        <div class="life-sona__strip" data-life-campus-carousel>
+            <div class="life-sona__strip-viewport">
+                <div class="life-sona__strip-track" data-life-campus-track>
+                    @foreach ($lifeSlides as $slide)
+                        <article class="life-sona__card life-sona__campus-item">
+                            <img src="{{ asset($slide['src']) }}" alt="{{ $slide['label'] }}" loading="lazy"
                                 decoding="async">
-                            <figcaption class="life-sona__campus-caption">{{ $campus['caption'] }}</figcaption>
-                        </figure>
+                            <h3 class="life-sona__card-label">{{ $slide['label'] }}</h3>
+                        </article>
                     @endforeach
                 </div>
             </div>
+
+            <button type="button" class="life-sona__strip-next life-sona__campus-arrow--next"
+                aria-label="Next campus life photos">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                    stroke-width="2.5" aria-hidden="true">
+                    <path d="M9 18l6-6-6-6" />
+                </svg>
+            </button>
         </div>
     </section>
 
@@ -999,17 +1010,22 @@
         </div>
     </section>
 
-    <section class="section section--muted alumni" id="alumni" aria-labelledby="alumni-title">
+    <section class="section section--white alumni" id="alumni" aria-labelledby="alumni-title">
         <div class="container">
-            <header class="section__header section__header--center">
-                <div class="accent-line">
-                    <h2 class="section__title" id="alumni-title">Notable Alumni</h2>
+            <div class="alumni__header">
+                <div class="alumni__heading">
+                    <p class="alumni__eyebrow">Success Stories</p>
+                    <h2 class="alumni__title" id="alumni-title">Notable Alumni</h2>
+                    <p class="alumni__intro">
+                        Sona graduates lead innovation across technology, manufacturing, entrepreneurship, and global
+                        enterprises.
+                    </p>
                 </div>
-                <p class="section__lead section__lead--spaced">
-                    Sona graduates lead innovation across technology, manufacturing, entrepreneurship, and global
-                    enterprises.
-                </p>
-            </header>
+                <a href="{{ url('/about') }}" class="alumni__view-all">
+                    View All Alumni
+                    <span aria-hidden="true">&rarr;</span>
+                </a>
+            </div>
 
             @php
                 $alumniDir = public_path('images/alumni');
@@ -1029,7 +1045,7 @@
                         $name = ucwords(str_replace(['-', '_'], ' ', pathinfo($file, PATHINFO_FILENAME)));
                         $notableAlumni[] = [
                             'name' => $name,
-                            'batch' => 'Sona Graduate',
+                            'batch' => 'Sona College of Technology',
                             'role' => 'Industry Leader',
                             'company' => 'Leading Organization',
                             'image' => 'images/alumni/' . $file,
@@ -1041,42 +1057,42 @@
                     $alumniFallbacks = [
                         [
                             'name' => 'Arun Kumar S.',
-                            'batch' => 'B.E. CSE, 2012',
+                            'batch' => 'B.E. CSE, Sona College of Technology — 2012',
                             'role' => 'Senior Engineering Manager',
                             'company' => 'Global Technology Firm',
                             'image' => 'images/news/alumni.jpg',
                         ],
                         [
                             'name' => 'Priya Venkatesh',
-                            'batch' => 'M.Tech, 2015',
+                            'batch' => 'M.Tech, Sona College of Technology — 2015',
                             'role' => 'Product Development Lead',
                             'company' => 'Automotive Innovation',
                             'image' => 'images/news/featured.jpg',
                         ],
                         [
                             'name' => 'Ramesh Babu M.',
-                            'batch' => 'B.E. Mechanical, 2010',
+                            'batch' => 'B.E. Mechanical, Sona College of Technology — 2010',
                             'role' => 'Plant Operations Head',
                             'company' => 'Manufacturing Sector',
                             'image' => 'images/news/campus-life.jpg',
                         ],
                         [
                             'name' => 'Divya Shankar',
-                            'batch' => 'MBA, 2018',
+                            'batch' => 'MBA, Sona College of Technology — 2018',
                             'role' => 'Entrepreneur & Founder',
                             'company' => 'Startup Ecosystem',
                             'image' => 'images/hero/leadership-card.jpg',
                         ],
                         [
                             'name' => 'Karthik Rajan',
-                            'batch' => 'B.E. ECE, 2014',
+                            'batch' => 'B.E. ECE, Sona College of Technology — 2014',
                             'role' => 'Solutions Architect',
                             'company' => 'Enterprise Software',
                             'image' => 'images/news/research.jpg',
                         ],
                         [
                             'name' => 'Meena Lakshmi',
-                            'batch' => 'MCA, 2016',
+                            'batch' => 'MCA, Sona College of Technology — 2016',
                             'role' => 'Technology Consultant',
                             'company' => 'International IT Services',
                             'image' => 'images/news/alumni.jpg',
@@ -1096,34 +1112,36 @@
             @endphp
 
             <div class="alumni__carousel" data-alumni-carousel>
-                <div class="alumni__nav" aria-label="Notable alumni controls">
-                    <button type="button" class="alumni__arrow alumni__arrow--prev" aria-label="Previous alumni">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                            stroke-width="2" aria-hidden="true">
-                            <path d="M15 18l-6-6 6-6" />
-                        </svg>
-                    </button>
-                    <button type="button" class="alumni__arrow alumni__arrow--next" aria-label="Next alumni">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                            stroke-width="2" aria-hidden="true">
-                            <path d="M9 18l6-6-6-6" />
-                        </svg>
-                    </button>
-                </div>
+                <button type="button" class="alumni__arrow alumni__arrow--prev" aria-label="Previous alumni">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2.5" aria-hidden="true">
+                        <path d="M15 18l-6-6 6-6" />
+                    </svg>
+                </button>
+                <button type="button" class="alumni__arrow alumni__arrow--next" aria-label="Next alumni">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2.5" aria-hidden="true">
+                        <path d="M9 18l6-6-6-6" />
+                    </svg>
+                </button>
 
                 <div class="alumni__viewport">
                     <div class="alumni__track" data-alumni-track>
                         @foreach ($notableAlumni as $alumnus)
                             <article class="alumni__card">
-                                <div class="alumni__photo">
-                                    <img src="{{ asset($alumnus['image']) }}" alt="{{ $alumnus['name'] }}"
-                                        loading="lazy" decoding="async">
-                                </div>
-                                <div class="alumni__body">
-                                    <h3 class="alumni__name">{{ $alumnus['name'] }}</h3>
-                                    <p class="alumni__batch">{{ $alumnus['batch'] }}</p>
-                                    <p class="alumni__role">{{ $alumnus['role'] }}</p>
-                                    <p class="alumni__company">{{ $alumnus['company'] }}</p>
+                                <div class="alumni__card-inner">
+                                    <div class="alumni__photo">
+                                        <img src="{{ asset($alumnus['image']) }}" alt="{{ $alumnus['name'] }}"
+                                            loading="lazy" decoding="async">
+                                    </div>
+                                    <div class="alumni__body">
+                                        <h3 class="alumni__name">{{ $alumnus['name'] }}</h3>
+                                        <p class="alumni__role">{{ $alumnus['role'] }}</p>
+                                        @if (!empty($alumnus['company']))
+                                            <p class="alumni__company">{{ $alumnus['company'] }}</p>
+                                        @endif
+                                        <p class="alumni__batch">{{ $alumnus['batch'] }}</p>
+                                    </div>
                                 </div>
                             </article>
                         @endforeach
@@ -1296,168 +1314,74 @@
                 heroScheduleAutoplay();
             }
 
-            var slider = document.querySelector('[data-campus-news-slider]');
-            if (slider) {
+            var panel = document.querySelector('[data-campus-news-panel]');
+            if (panel) {
+                var featured = panel.querySelector('[data-news-featured]');
+                var featuredImage = panel.querySelector('[data-news-featured-image]');
+                var featuredDay = panel.querySelector('[data-news-featured-day]');
+                var featuredMonth = panel.querySelector('[data-news-featured-month]');
+                var featuredLabel = panel.querySelector('[data-news-featured-label]');
+                var featuredTitle = panel.querySelector('[data-news-featured-title]');
+                var featuredLink = panel.querySelector('[data-news-featured-link]');
+                var items = Array.prototype.slice.call(panel.querySelectorAll('[data-news-item]'));
+                var filterBtns = Array.prototype.slice.call(document.querySelectorAll('[data-news-filter]'));
+                var activeFilter = 'all';
 
-                var stage = slider.querySelector('.campus-news__stage');
-                var slides = Array.prototype.slice.call(slider.querySelectorAll('.campus-news__slide'));
-                var thumbs = Array.prototype.slice.call(slider.querySelectorAll('.campus-news__thumb'));
-                var prevBtn = slider.querySelector('.campus-news__arrow--prev');
-                var nextBtn = slider.querySelector('.campus-news__arrow--next');
-                var typeFilter = document.querySelector('[data-news-type-filter]');
-                var categoryFilter = document.querySelector('[data-news-category-filter]');
-                var current = 0;
-                var timer = null;
-                var delay = 5000;
-                var isPaused = false;
+                function setFeatured(item) {
+                    if (!item || !featured) return;
 
-                function getVisibleIndices() {
-                    return slides.map(function(slide, index) {
-                        return slide.classList.contains('is-filtered-out') ? -1 : index;
-                    }).filter(function(index) {
-                        return index !== -1;
+                    items.forEach(function(el) {
+                        el.classList.toggle('is-active', el === item);
                     });
+
+                    if (featuredImage) {
+                        featuredImage.src = item.dataset.newsImage || featuredImage.src;
+                        featuredImage.alt = item.dataset.newsAlt || '';
+                    }
+                    if (featuredDay) featuredDay.textContent = item.dataset.newsDay || '';
+                    if (featuredMonth) featuredMonth.textContent = item.dataset.newsMonth || '';
+                    if (featuredLabel) featuredLabel.textContent = item.dataset.newsLabel || '';
+                    if (featuredTitle) {
+                        featuredTitle.textContent = item.dataset.newsTitle || '';
+                        featuredTitle.href = item.dataset.newsUrl || '#';
+                    }
+                    if (featuredLink) featuredLink.href = item.dataset.newsUrl || '#';
+                    featured.dataset.newsType = item.dataset.newsType || '';
+                    var mediaLink = featured.querySelector('.campus-news__featured-media');
+                    if (mediaLink) mediaLink.href = item.dataset.newsUrl || '#';
                 }
 
-                function goTo(index) {
-                    current = index;
+                function applyFilter(filter) {
+                    activeFilter = filter;
+                    var firstVisible = null;
 
-                    slides.forEach(function(slide, i) {
-                        var filtered = slide.classList.contains('is-filtered-out');
-                        var isActive = i === current && !filtered;
-                        slide.classList.toggle('is-active', isActive);
-                        slide.hidden = !isActive;
+                    items.forEach(function(item) {
+                        var match = filter === 'all' || item.dataset.newsType === filter;
+                        item.classList.toggle('is-filtered-out', !match);
+                        if (match && !firstVisible) firstVisible = item;
                     });
 
-                    thumbs.forEach(function(thumb, i) {
-                        var filtered = thumb.classList.contains('is-filtered-out');
-                        var isActive = i === current && !filtered;
-                        thumb.classList.toggle('is-active', isActive);
-                        thumb.setAttribute('aria-selected', isActive ? 'true' : 'false');
-                    });
-                }
-
-                function goToFirstVisible() {
-                    var visible = getVisibleIndices();
-                    if (visible.length) {
-                        goTo(visible[0]);
+                    if (firstVisible) {
+                        setFeatured(firstVisible);
                     }
                 }
 
-                function next() {
-                    var visible = getVisibleIndices();
-                    if (visible.length < 2) return;
-
-                    var position = visible.indexOf(current);
-                    var nextIndex = position === -1 ? visible[0] : visible[(position + 1) % visible.length];
-                    goTo(nextIndex);
-                }
-
-                function prev() {
-                    var visible = getVisibleIndices();
-                    if (visible.length < 2) return;
-
-                    var position = visible.indexOf(current);
-                    var prevIndex = position === -1 ? visible[0] : visible[(position - 1 + visible.length) % visible
-                        .length];
-                    goTo(prevIndex);
-                }
-
-                function applyFilters() {
-                    var typeValue = typeFilter ? typeFilter.value : 'all';
-                    var categoryValue = categoryFilter ? categoryFilter.value : 'all';
-
-                    slides.forEach(function(slide, index) {
-                        var matchesType = typeValue === 'all' || slide.dataset.newsType === typeValue;
-                        var matchesCategory = categoryValue === 'all' || slide.dataset.newsCategory ===
-                            categoryValue;
-                        var isVisible = matchesType && matchesCategory;
-
-                        slide.classList.toggle('is-filtered-out', !isVisible);
-                        if (thumbs[index]) {
-                            thumbs[index].classList.toggle('is-filtered-out', !isVisible);
-                            thumbs[index].disabled = !isVisible;
-                        }
-                    });
-
-                    goToFirstVisible();
-                    restartAutoplay();
-                }
-
-                function scheduleAutoplay() {
-                    stopAutoplay();
-                    if (isPaused || getVisibleIndices().length < 2) return;
-
-                    timer = window.setTimeout(function() {
-                        next();
-                        scheduleAutoplay();
-                    }, delay);
-                }
-
-                function stopAutoplay() {
-                    if (timer) {
-                        window.clearTimeout(timer);
-                        timer = null;
-                    }
-                }
-
-                function restartAutoplay() {
-                    stopAutoplay();
-                    scheduleAutoplay();
-                }
-
-                thumbs.forEach(function(thumb, index) {
-                    thumb.addEventListener('click', function() {
-                        if (thumb.classList.contains('is-filtered-out')) return;
-                        goTo(index);
-                        restartAutoplay();
+                filterBtns.forEach(function(btn) {
+                    btn.addEventListener('click', function() {
+                        filterBtns.forEach(function(other) {
+                            other.classList.toggle('is-active', other === btn);
+                        });
+                        applyFilter(btn.dataset.newsFilter || 'all');
                     });
                 });
 
-                if (prevBtn) {
-                    prevBtn.addEventListener('click', function() {
-                        prev();
-                        restartAutoplay();
+                items.forEach(function(item) {
+                    item.addEventListener('click', function(event) {
+                        event.preventDefault();
+                        if (item.classList.contains('is-filtered-out')) return;
+                        setFeatured(item);
                     });
-                }
-
-                if (nextBtn) {
-                    nextBtn.addEventListener('click', function() {
-                        next();
-                        restartAutoplay();
-                    });
-                }
-
-                if (typeFilter) {
-                    typeFilter.addEventListener('change', applyFilters);
-                }
-
-                if (categoryFilter) {
-                    categoryFilter.addEventListener('change', applyFilters);
-                }
-
-                if (stage) {
-                    stage.addEventListener('mouseenter', function() {
-                        isPaused = true;
-                        stopAutoplay();
-                    });
-
-                    stage.addEventListener('mouseleave', function() {
-                        isPaused = false;
-                        scheduleAutoplay();
-                    });
-                }
-
-                document.addEventListener('visibilitychange', function() {
-                    if (document.hidden) {
-                        stopAutoplay();
-                    } else if (!isPaused) {
-                        scheduleAutoplay();
-                    }
                 });
-
-                goTo(0);
-                scheduleAutoplay();
             }
 
         });
@@ -1467,47 +1391,43 @@
             if (!carousel) return;
 
             var track = carousel.querySelector('[data-life-campus-track]');
-            var items = Array.prototype.slice.call(carousel.querySelectorAll('.life-sona__campus-item'));
-            var prevBtn = carousel.querySelector('.life-sona__campus-arrow--prev');
+            var viewport = carousel.querySelector('.life-sona__strip-viewport, .life-sona__campus-viewport');
             var nextBtn = carousel.querySelector('.life-sona__campus-arrow--next');
-            var viewport = carousel.querySelector('.life-sona__campus-viewport');
+            var prevBtn = carousel.querySelector('.life-sona__campus-arrow--prev');
             var current = 0;
             var timer = null;
-            var delay = 5000;
+            var delay = 3500;
             var isPaused = false;
+            var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-            if (!track || items.length < 2) return;
+            if (!track || !viewport) return;
+
+            // Clone slides so autoplay always has room to move
+            var originalItems = Array.prototype.slice.call(track.querySelectorAll('.life-sona__campus-item'));
+            if (originalItems.length < 2) return;
+
+            if (originalItems.length < 8) {
+                originalItems.forEach(function(item) {
+                    var clone = item.cloneNode(true);
+                    clone.setAttribute('aria-hidden', 'true');
+                    track.appendChild(clone);
+                });
+            }
+
+            var items = Array.prototype.slice.call(track.querySelectorAll('.life-sona__campus-item'));
 
             function getPerView() {
-                var count = items.length;
-                var perView;
-
-                if (window.innerWidth <= 640) {
-                    perView = 1;
-                } else if (window.innerWidth <= 960) {
-                    perView = 2;
-                } else if (window.innerWidth <= 1200) {
-                    perView = 3;
-                } else if (window.innerWidth <= 1400) {
-                    perView = 4;
-                } else {
-                    perView = 5;
-                }
-
-                perView = Math.min(perView, count);
-
-                if (count >= 2 && perView >= count) {
-                    perView = count - 1;
-                }
-
-                return Math.max(1, perView);
+                if (window.innerWidth <= 640) return 1;
+                if (window.innerWidth <= 960) return 2;
+                if (window.innerWidth <= 1200) return 3;
+                return 4;
             }
 
             function getMaxIndex() {
                 return Math.max(0, items.length - getPerView());
             }
 
-            function update() {
+            function update(animate) {
                 var perView = getPerView();
                 var maxIndex = getMaxIndex();
 
@@ -1517,101 +1437,113 @@
 
                 carousel.style.setProperty('--life-campus-per-view', String(perView));
 
+                if (animate === false) {
+                    track.style.transition = 'none';
+                } else {
+                    track.style.transition = '';
+                }
+
                 var slideWidth = viewport.offsetWidth / perView;
                 track.style.transform = 'translateX(-' + (current * slideWidth) + 'px)';
 
+                if (animate === false) {
+                    // Force reflow then restore transition
+                    void track.offsetWidth;
+                    track.style.transition = '';
+                }
+
                 var canSlide = maxIndex > 0;
-
-                if (prevBtn) {
-                    prevBtn.disabled = !canSlide;
-                }
-
-                if (nextBtn) {
-                    nextBtn.disabled = !canSlide;
-                }
+                if (prevBtn) prevBtn.disabled = !canSlide;
+                if (nextBtn) nextBtn.disabled = !canSlide;
             }
 
             function next() {
                 var maxIndex = getMaxIndex();
-                if (maxIndex === 0) {
-                    return;
-                }
+                if (maxIndex === 0) return;
 
-                current = current >= maxIndex ? 0 : current + 1;
+                if (current >= maxIndex) {
+                    current = 0;
+                } else {
+                    current += 1;
+                }
                 update();
             }
 
             function prev() {
                 var maxIndex = getMaxIndex();
-                if (maxIndex === 0) {
-                    return;
-                }
+                if (maxIndex === 0) return;
 
-                current = current <= 0 ? maxIndex : current - 1;
+                if (current <= 0) {
+                    current = maxIndex;
+                } else {
+                    current -= 1;
+                }
                 update();
             }
 
-            function scheduleAutoplay() {
+            function stopAutoplay() {
                 if (timer) {
-                    window.clearTimeout(timer);
+                    window.clearInterval(timer);
                     timer = null;
                 }
+            }
 
-                if (isPaused || items.length < 2 || getMaxIndex() === 0) {
-                    return;
-                }
+            function startAutoplay() {
+                stopAutoplay();
+                if (isPaused || reduceMotion || getMaxIndex() === 0) return;
 
-                timer = window.setTimeout(function() {
-                    next();
-                    scheduleAutoplay();
-                }, delay);
+                timer = window.setInterval(next, delay);
             }
 
             if (prevBtn) {
                 prevBtn.addEventListener('click', function() {
                     prev();
-                    scheduleAutoplay();
+                    startAutoplay();
                 });
             }
 
             if (nextBtn) {
                 nextBtn.addEventListener('click', function() {
                     next();
-                    scheduleAutoplay();
+                    startAutoplay();
                 });
             }
 
             carousel.addEventListener('mouseenter', function() {
                 isPaused = true;
-                if (timer) {
-                    window.clearTimeout(timer);
-                    timer = null;
-                }
+                stopAutoplay();
             });
 
             carousel.addEventListener('mouseleave', function() {
                 isPaused = false;
-                scheduleAutoplay();
+                startAutoplay();
+            });
+
+            carousel.addEventListener('focusin', function() {
+                isPaused = true;
+                stopAutoplay();
+            });
+
+            carousel.addEventListener('focusout', function() {
+                isPaused = false;
+                startAutoplay();
             });
 
             window.addEventListener('resize', function() {
-                update();
-                scheduleAutoplay();
+                update(false);
+                startAutoplay();
             });
 
             document.addEventListener('visibilitychange', function() {
                 if (document.hidden) {
-                    if (timer) {
-                        window.clearTimeout(timer);
-                        timer = null;
-                    }
+                    stopAutoplay();
                 } else if (!isPaused) {
-                    scheduleAutoplay();
+                    startAutoplay();
                 }
             });
 
-            update();
-            scheduleAutoplay();
+            update(false);
+            startAutoplay();
         });
 
         document.addEventListener('DOMContentLoaded', function() {
@@ -1634,14 +1566,10 @@
                 var count = items.length;
                 var perView;
 
-                if (window.innerWidth <= 640) {
+                if (window.innerWidth <= 720) {
                     perView = 1;
-                } else if (window.innerWidth <= 960) {
-                    perView = 2;
-                } else if (window.innerWidth <= 1200) {
-                    perView = 3;
                 } else {
-                    perView = 4;
+                    perView = 2;
                 }
 
                 perView = Math.min(perView, count);
